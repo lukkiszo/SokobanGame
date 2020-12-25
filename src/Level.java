@@ -3,11 +3,11 @@ import java.util.*;
 
 public class Level {
 
-    Level()
+    Level(String nameOfFile)
     {
         try
         {
-            var quintet = GetValuesFromReader.getPropValues();
+            var quintet = GetValuesFromReader.getPropValues(nameOfFile);
             numberOfObstacles = quintet.e;
             levelNumber = quintet.d;
             for(int i = 0; i<quintet.c.length; i += 2)
