@@ -4,11 +4,9 @@ import java.util.Properties;
 import java.io.FileInputStream;
 
     public class GetValuesFromReader {
-
-        public static Quintet<Integer[], Integer[], Integer[], Integer, Integer> getPropValues() throws IOException {
-
+        public static Quintet<Integer[], Integer[], Integer[], Integer, Integer> getPropValues(String ff) throws IOException {
                 Properties val = new Properties();
-                String fileName = "resources\\config.properties";
+                String fileName = "resources\\"+ff;
 
                 InputStream input = new FileInputStream(fileName);
 
