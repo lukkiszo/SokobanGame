@@ -10,7 +10,7 @@ public class Level {
             var quintet = GetValuesFromReader.getPropValues(nameOfFile);
             numberOfObstacles = quintet.e;
             levelNumber = quintet.d;
-            for(int i = 0; i<quintet.c.length; i += 2)
+            for(int i = 0; i < quintet.c.length; i += 2)
             {
                 obstaclesPosition.add(new Pair<>(quintet.c[i], quintet.c[i + 1]));
             }

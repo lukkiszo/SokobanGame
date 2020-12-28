@@ -6,29 +6,26 @@ import java.io.IOException;
 public class Reader {
     static Properties props = new Properties();
     static InputStream input = null;
-    static String readedFileName = null;
+    static String readFileName = null;
 
     public static Level makeLevel(Integer number) throws IOException {
         input = new FileInputStream("resources\\config.txt");
         props.load(input);
-        readedFileName = props.getProperty("file"+number);
+        readFileName = props.getProperty("file"+number);
 
-        Level level = new Level(readedFileName);
-        return level;
+        return new Level(readFileName);
     }
 
     public static int getNumberOfLevels() throws IOException {
         input = new FileInputStream("resources\\config.txt");
         props.load(input);
-        int maxFile = Integer.parseInt(props.getProperty("numberOfFiles"));
-        return maxFile;
+        return Integer.parseInt(props.getProperty("numberOfFiles"));
     }
 
     public static void main(String[] args) throws IOException {
-        Reader reader = new Reader();
-        for(int i=0; i<reader.getNumberOfLevels(); i++)
+        for(int i = 0; i < Reader.getNumberOfLevels(); i++)
         {
-            reader.makeLevel(i+1);
+            Reader.makeLevel(i+1);
         }
     }
 }

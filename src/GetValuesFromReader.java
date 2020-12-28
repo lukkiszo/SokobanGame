@@ -4,9 +4,9 @@ import java.util.Properties;
 import java.io.FileInputStream;
 
     public class GetValuesFromReader {
-        public static Quintet<Integer[], Integer[], Integer[], Integer, Integer> getPropValues(String ff) throws IOException {
+        public static Quintet<Integer[], Integer[], Integer[], Integer, Integer> getPropValues(String nr) throws IOException {
                 Properties val = new Properties();
-                String fileName = "resources\\"+ff;
+                String fileName = "resources\\" + nr;
 
                 InputStream input = new FileInputStream(fileName);
 
@@ -21,7 +21,8 @@ import java.io.FileInputStream;
                 String[] arr1 = obstacles.split(";");
                 Integer[] int_obstacles = new Integer[arr1.length * 2];
                 System.out.println("Obstacles: ");
-                for (int i = 0 ; i < arr1.length ; i++) {
+                for (int i = 0 ; i < arr1.length ; i++)
+                {
                    String[] arr2 = arr1[i].split(",");
                    System.out.println(Integer.parseInt(arr2[0]) + "," + Integer.parseInt(arr2[1]) );
                    int_obstacles[i*2] = Integer.parseInt(arr2[0]);
