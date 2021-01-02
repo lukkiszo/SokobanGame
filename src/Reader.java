@@ -11,7 +11,7 @@ public class Reader {
     public static Level makeLevel(Integer number) throws IOException {
         input = new FileInputStream("resources\\config.txt");
         props.load(input);
-        readFileName = props.getProperty("file"+number);
+        readFileName = props.getProperty("file" + number);
 
         return new Level(readFileName);
     }
