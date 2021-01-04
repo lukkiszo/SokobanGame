@@ -2,6 +2,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class Level {
+    int numberOfObstacles;
+    int levelNumber;
+    Vector<Pair<Integer, Integer>> obstaclesPosition = new Vector<>();
+    Vector<Pair<Integer, Integer>> wallsPosition = new Vector<>();
+    Vector<Pair<Integer, Integer>> playerPosition = new Vector<>();
 
     Level(String nameOfFile)
     {
@@ -28,10 +33,4 @@ public class Level {
             e.printStackTrace();
         }
     }
-
-    int numberOfObstacles = 0;
-    int levelNumber = 0;
-    Vector<Pair<Integer, Integer>> obstaclesPosition = new Vector<>();
-    Vector<Pair<Integer, Integer>> wallsPosition = new Vector<>();
-    Vector<Pair<Integer, Integer>> playerPosition = new Vector<>();
 }

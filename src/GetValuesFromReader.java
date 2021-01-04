@@ -53,6 +53,6 @@ import java.io.FileInputStream;
                 System.out.println("Number of Obstacles: ");
                 System.out.println(numberOfObstacles);
 
-                return new Quintet<>(int_obstacles, int_walls, plPos, levelNumber, numberOfObstacles);
+                return new Quintet<>(plPos, int_walls, int_obstacles, levelNumber, numberOfObstacles);
         }
     }
