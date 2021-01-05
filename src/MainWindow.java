@@ -2,15 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
+    Reader reader = new Reader();
 
     MainWindow(Game game){
+        reader.getPrefSize();
         this.setTitle("Sokoban");
-        this.setSize(new Dimension(600,600));
+        this.setSize(new Dimension(reader.prefWidth, reader.prefHeight));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         this.setLocationRelativeTo(null);
         this.add(game);
+        this.addKeyListener(game.keys);
         this.setVisible(true);
-//        game.start();
+        game.start();
     }
 }

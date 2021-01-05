@@ -3,22 +3,33 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Obstacle extends JComponent {
-    private Level lev = Reader.makeLevel(1);
+    private Level lev;
+    private double[] positions;
+    private int numberOfObstacles;
+    boolean isTouchingPlayer = false;
+    boolean isOnCorrectPlace = false;
 
-    public Obstacle() throws IOException {
+    public Obstacle(int levelNumber) throws IOException {
+        lev = Reader.makeLevel(levelNumber);
+        numberOfObstacles = lev.numberOfObstacles;
+        positions = new double[2*numberOfObstacles];
+        for(int i = 0; i<numberOfObstacles; i++)
+        {
+            positions[2*i] = lev.obstaclesPosition.elementAt(i).a;
+            positions[2*i+1] = lev.obstaclesPosition.elementAt(i).b;
+        }
     }
-
 
     @Override
     public void paintComponent(Graphics g) {
 //        super.paintComponent(g);
-
-        for(int i = 0; i<lev.obstaclesPosition.size(); i++)
+        setDoubleBuffered(true);
+        for(int i = 0; i<numberOfObstacles; i++)
         {
             g.setColor(Color.RED);
-            g.fillRect(50 * lev.obstaclesPosition.elementAt(i).a, 50 * lev.obstaclesPosition.elementAt(i).b, 50,50);
+            g.fillRect((int) (50 * positions[2*i]), (int) (50 * positions[2*i+1]), 50,50);
             g.setColor(Color.BLACK);
-            g.drawRect(50 * lev.obstaclesPosition.elementAt(i).a, 50 * lev.obstaclesPosition.elementAt(i).b, 50,50);
+            g.drawRect((int) (50 * positions[2*i]), (int) (50 * positions[2*i+1]), 50,50);
         }
 
     }

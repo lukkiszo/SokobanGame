@@ -7,13 +7,20 @@ public class Reader {
     static Properties props = new Properties();
     static InputStream input = null;
     static String readFileName = null;
+    int prefHeight;
+    int prefWidth;
 
     public static Level makeLevel(Integer number) throws IOException {
         input = new FileInputStream("resources\\config.txt");
         props.load(input);
         readFileName = props.getProperty("file" + number);
-
         return new Level(readFileName);
+    }
+
+    public void getPrefSize()
+    {
+        prefWidth = Integer.parseInt(props.getProperty("prefWidth"));
+        prefHeight = Integer.parseInt(props.getProperty("prefHeight"));
     }
 
     public static int getNumberOfLevels() throws IOException {

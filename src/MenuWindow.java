@@ -150,8 +150,9 @@ public class MenuWindow extends JFrame{
 
         dispose();
         Game gam = new Game();
-        MainWindow men = new MainWindow(gam);
-        SwingUtilities.invokeLater((Runnable) gam);
+//        MainWindow men = new MainWindow(gam);
+//        men.addKeyListener(gam.keys);
+//        SwingUtilities.invokeLater((Runnable) gam);
 
 //        Graphics g = getContentPane().getGraphics();
 //        this.paintComponents(g);
