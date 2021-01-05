@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Obstacle extends JComponent {
+    Rectangle[] obs;  // tablica wszystkich przeszkod
     private Level lev;
     private double[] positions;
     private int numberOfObstacles;
@@ -13,10 +14,12 @@ public class Obstacle extends JComponent {
         lev = Reader.makeLevel(levelNumber);
         numberOfObstacles = lev.numberOfObstacles;
         positions = new double[2*numberOfObstacles];
+        obs = new Rectangle[numberOfObstacles];
         for(int i = 0; i<numberOfObstacles; i++)
         {
             positions[2*i] = lev.obstaclesPosition.elementAt(i).a;
             positions[2*i+1] = lev.obstaclesPosition.elementAt(i).b;
+            obs[i] = new Rectangle(lev.obstaclesPosition.elementAt(i).a,lev.obstaclesPosition.elementAt(i).b,50,50);
         }
     }
 
