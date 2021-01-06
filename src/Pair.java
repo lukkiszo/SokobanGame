@@ -1,5 +1,5 @@
 public class Pair<A, B> {
-    public final A a;
+    public A a;
     public final B b;
 
     public Pair(A a1, B b1) {

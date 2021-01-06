@@ -5,15 +5,18 @@ import java.io.IOException;
 public class Walls extends JPanel {
     public Level lev;
     double[] position;
+    Rectangle[] wal;
 
 
     public Walls(int levelNumber) throws IOException {
         lev = Reader.makeLevel(levelNumber);
         position = new double[2*lev.wallsPosition.size()];
+        wal = new Rectangle[lev.wallsPosition.size()];
         for(int i = 0; i<lev.wallsPosition.size(); i++)
         {
             position[2*i] = lev.wallsPosition.elementAt(i).a;
             position[2*i+1] = lev.wallsPosition.elementAt(i).b;
+            wal[i] = new Rectangle(lev.wallsPosition.elementAt(i).a,lev.wallsPosition.elementAt(i).b,50,50);
         }
     }
 
