@@ -7,6 +7,8 @@ public class Game extends JComponent implements Runnable{
     private Walls walls;
     private Player player;
     private Obstacle obstacle;
+//    private Obstacle[] obstacle;
+    private CorrectPlaces correctPlace;
     private Level lev;
     public Keys keys;
     Thread thread;
@@ -20,7 +22,6 @@ public class Game extends JComponent implements Runnable{
     public boolean downWall = false;
 
 
-
     private boolean running = false;
     private MainWindow mainWindow;
 
@@ -29,6 +30,12 @@ public class Game extends JComponent implements Runnable{
         walls = new Walls(levelNumber);
         player = new Player(levelNumber);
         obstacle = new Obstacle(levelNumber);
+//        obstacle = new Obstacle[lev.numberOfObstacles];
+        correctPlace = new CorrectPlaces(levelNumber);
+//        for(int i = 0; i<lev.numberOfObstacles; i++)
+//        {
+//            obstacle[i] = new Obstacle(levelNumber);
+//        }
         keys = new Keys(player, this);
         mainWindow = new MainWindow(this);
     }
@@ -49,26 +56,25 @@ public class Game extends JComponent implements Runnable{
 
         for (int i = 0; i<lev.wallsPosition.size(); i++) {
             for (int j = 0; j<lev.numberOfObstacles; j++){
-                if(obstacle.positions[2 * j] + 1 == walls.position[2 * i] && obstacle.positions[2 * j + 1] == walls.position[2 * i + 1]){
+                if(obstacle.positions[3 * j] + 1 == walls.position[2 * i] && obstacle.positions[3 * j + 1] == walls.position[2 * i + 1]){
                     rightWall = true;
                 }
 
-                if(obstacle.positions[2 * j + 1] + 1 == walls.position[2 * i + 1] && obstacle.positions[2 * j] == walls.position[2 * i]){
+                if(obstacle.positions[3 * j + 1] + 1 == walls.position[2 * i + 1] && obstacle.positions[3 * j] == walls.position[2 * i]){
                     downWall = true;
                 }
 
-                if(obstacle.positions[2 * j + 1] == walls.position[2 * i + 1] + 1 && obstacle.positions[2 * j] == walls.position[2 * i]){
+                if(obstacle.positions[3 * j + 1] == walls.position[2 * i + 1] + 1 && obstacle.positions[3 * j] == walls.position[2 * i]){
                     upWall = true;
                 }
 
-                if(obstacle.positions[2 * j] == walls.position[2 * i] + 1 && obstacle.positions[2 * j + 1] == walls.position[2 * i + 1]){
+                if(obstacle.positions[3 * j] == walls.position[2 * i] + 1 && obstacle.positions[3 * j + 1] == walls.position[2 * i + 1]){
                     leftWall = true;
                 }
             }
         }
         return rightWall || leftWall || upWall || downWall;
     }
-
 
     // player - obstacle
     private boolean collisionWithObstacles() {
@@ -78,31 +84,31 @@ public class Game extends JComponent implements Runnable{
         player.downCollisionO = false;
 
             for (int i = 0; i < lev.obstaclesPosition.size(); i++) {
-                if (player.position[0] == obstacle.positions[2 * i] && player.position[1] + 0.5 == obstacle.positions[2 * i + 1] + 0.5) {
+                if (player.position[0] == obstacle.positions[3 * i] && player.position[1] + 0.5 == obstacle.positions[3 * i + 1] + 0.5) {
                     player.rightCollisionO = true;
                     if(player.goRight && !obstacle.rightCollision && !rightWall){
-                        obstacle.positions[2 * i] += 1;
+                        obstacle.positions[3 * i] += 1;
                     }
                 }
 
-                if (player.position[0] + 0.5 == obstacle.positions[2 * i] + 0.5 && player.position[1] == obstacle.positions[2 * i + 1]) {
+                if (player.position[0] + 0.5 == obstacle.positions[3 * i] + 0.5 && player.position[1] == obstacle.positions[3 * i + 1]) {
                     player.downCollisionO = true;
                     if (player.goDown && !obstacle.downCollision && !downWall) {
-                        obstacle.positions[2 * i + 1] += 1;
+                        obstacle.positions[3 * i + 1] += 1;
                     }
                 }
 
-                if (player.position[0] + 0.5 == obstacle.positions[2 * i] + 0.5 && player.position[1] == obstacle.positions[2 * i + 1]) {
+                if (player.position[0] + 0.5 == obstacle.positions[3 * i] + 0.5 && player.position[1] == obstacle.positions[3 * i + 1]) {
                     player.upCollisionO = true;
                     if (player.goUp && !obstacle.downCollision && !upWall) {
-                        obstacle.positions[2 * i + 1] -= 1;
+                        obstacle.positions[3 * i + 1] -= 1;
                     }
                 }
 
-                if (player.position[0] == obstacle.positions[2 * i] && player.position[1] + 0.5 == obstacle.positions[2 * i + 1] + 0.5) {
+                if (player.position[0] == obstacle.positions[3 * i] && player.position[1] + 0.5 == obstacle.positions[3 * i + 1] + 0.5) {
                     player.leftCollisionO = true;
                     if (player.goLeft && !obstacle.rightCollision && !leftWall) {
-                        obstacle.positions[2 * i] -= 1;
+                        obstacle.positions[3 * i] -= 1;
                     }
                 }
 
@@ -118,6 +124,10 @@ public class Game extends JComponent implements Runnable{
         {
             update();
             repaint();
+            if(obstacle.isOnCorrectPlace()){
+                System.out.println("WYGRANA");
+                break;
+            }
         }
         stop();
 //        update();
@@ -149,7 +159,7 @@ public class Game extends JComponent implements Runnable{
 
     @Override
     public void paintComponent(Graphics g) {
-
+        correctPlace.paintComponent(g);
         walls.paintComponent(g);
         player.paintComponent(g);
         obstacle.paintComponent(g);

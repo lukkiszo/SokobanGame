@@ -59,26 +59,26 @@ public class Player extends JComponent {
 
 
             if(goRight && !rightCollision && !rightCollisionO){
-                System.out.println(rightCollisionO);
-                System.out.println(rightCollision);
+//                System.out.println(rightCollisionO);
+//                System.out.println(rightCollision);
                 position[0] += 1;
-                System.out.println("RRRRRRRR");
+//                System.out.println("RRRRRRRR");
             }
             else if(goLeft && !leftCollision && !leftCollisionO){
-                System.out.println(leftCollisionO);
-                System.out.println(leftCollision);
+//                System.out.println(leftCollisionO);
+//                System.out.println(leftCollision);
                 position[0] -= 1;
-                System.out.println("LLLLLLLL");
+//                System.out.println("LLLLLLLL");
             }
             else if(goUp && !upCollision && !upCollisionO){
-                System.out.println(3);
+//                System.out.println(3);
                 position[1] -= 1;
-                System.out.println("UUUUUUU");
+//                System.out.println("UUUUUUU");
             }
             else if(goDown && !downCollision && !downCollisionO){
-                System.out.println(4);
+//                System.out.println(4);
                 position[1] += 1;
-                System.out.println("DDDDDDDD");
+//                System.out.println("DDDDDDDD");
             }
 //            lastTime = System.currentTimeMillis();
 //        }

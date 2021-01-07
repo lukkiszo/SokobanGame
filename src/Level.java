@@ -7,25 +7,30 @@ public class Level {
     Vector<Pair<Integer, Integer>> obstaclesPosition = new Vector<>();
     Vector<Pair<Integer, Integer>> wallsPosition = new Vector<>();
     Vector<Pair<Integer, Integer>> playerPosition = new Vector<>();
+    Vector<Pair<Integer, Integer>> correctPlacesPosition = new Vector<>();
 
     Level(String nameOfFile)
     {
         try
         {
-            var quintet = GetValuesFromReader.getPropValues(nameOfFile);
-            numberOfObstacles = quintet.e;
-            levelNumber = quintet.d;
-            for(int i = 0; i < quintet.c.length; i += 2)
+            var sextet = GetValuesFromReader.getPropValues(nameOfFile);
+            numberOfObstacles = sextet.e;
+            levelNumber = sextet.d;
+            for(int i = 0; i < sextet.c.length; i += 2)
             {
-                obstaclesPosition.add(new Pair<>(quintet.c[i], quintet.c[i + 1]));
+                obstaclesPosition.add(new Pair<>(sextet.c[i], sextet.c[i + 1]));
             }
-            for(int i = 0; i<quintet.b.length; i += 2)
+            for(int i = 0; i<sextet.b.length; i += 2)
             {
-                wallsPosition.add(new Pair<>(quintet.b[i], quintet.b[i + 1]));
+                wallsPosition.add(new Pair<>(sextet.b[i], sextet.b[i + 1]));
             }
-            for(int i = 0; i<quintet.a.length; i += 2)
+            for(int i = 0; i<sextet.a.length; i += 2)
             {
-                playerPosition.add(new Pair<>(quintet.a[i], quintet.a[i + 1]));
+                playerPosition.add(new Pair<>(sextet.a[i], sextet.a[i + 1]));
+            }
+            for(int i = 0; i < sextet.f.length; i += 2)
+            {
+                correctPlacesPosition.add(new Pair<>(sextet.f[i], sextet.f[i + 1]));
             }
         }
         catch (IOException e)
