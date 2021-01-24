@@ -29,7 +29,7 @@ public class Game extends JComponent implements Runnable{
         player = new Player(levelNumber);
 
 // zrobione tak ze jest tyle samo dobrych miejsc co przeszkod
-// jesli chcielibysmy zrobic wiecej dobrych miejsc niz przeszkod to trzeba zmienic, tak samo w paintComponent
+// jesli chcielibysmy zrobic wiecej dobrych miejsc niz przeszkod to trzeba zmienic, tak samo w paintComponent, tak samo w resizeAll()
 
         obstacle = new Obstacle[lev.numberOfObstacles];
         correctPlace = new CorrectPlaces[lev.numberOfObstacles];
@@ -157,7 +157,6 @@ public class Game extends JComponent implements Runnable{
         }
     }
 
-
     public int isOnCorrectPlace()
     {
         int k = 0;
@@ -176,7 +175,7 @@ public class Game extends JComponent implements Runnable{
         return k;
     }
 
-        public boolean isVictory()
+    public boolean isVictory()
     {
         boolean victory = false;
         if(isOnCorrectPlace() == lev.numberOfObstacles)
@@ -207,6 +206,7 @@ public class Game extends JComponent implements Runnable{
 
     public boolean nextLevel() throws IOException {
         levelNumber += 1;
+        System.out.println(levelNumber);
         mainWindow.makeLevel(levelNumber);
         return true;
     }
@@ -248,10 +248,27 @@ public class Game extends JComponent implements Runnable{
 
             if(isVictory())
             {
-                System.out.println("Wygrana, NEXT LEVEL");
                 nextLevel();
             }
             lastTime = System.currentTimeMillis();
+        }
+
+    }
+
+    public void resizeAll() {
+        player.height = (int) ((double) player.prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
+        player.width = (int) ((double) player.prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
+
+        for (int i = 0; i < lev.numberOfObstacles; i++){
+            obstacle[i].height = (int) ((double) obstacle[i].prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
+            obstacle[i].width = (int) ((double) obstacle[i].prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
+            correctPlace[i].height = (int) ((double) correctPlace[i].prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
+            correctPlace[i].width = (int) ((double) correctPlace[i].prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
+        }
+
+        for (int i = 0; i < lev.wallsPosition.size(); i++){
+            walls[i].height = (int) ((double) walls[i].prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
+            walls[i].width = (int) ((double) walls[i].prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
         }
 
     }

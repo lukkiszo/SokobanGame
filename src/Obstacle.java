@@ -9,6 +9,12 @@ public class Obstacle extends JComponent {
     public double xpos;
     public double ypos;
 
+    public double width;
+    public double height;
+
+    public int prefWidth = 50;
+    public int prefHeight = 50;
+
     public boolean rightCollision = false;
     public boolean downCollision = false;
     public boolean leftCollision = false;
@@ -22,6 +28,8 @@ public class Obstacle extends JComponent {
 
 //    nowy konstruktor
     public Obstacle(int levelNumber, int index) throws IOException {
+        width = prefWidth;
+        height = prefHeight;
         lev = Reader.makeLevel(levelNumber);
         xpos = lev.obstaclesPosition.elementAt(index).a;
         ypos = lev.obstaclesPosition.elementAt(index).b;
@@ -34,15 +42,15 @@ public class Obstacle extends JComponent {
         if(isOnCorrectPlace)
         {
             g.setColor(Color.ORANGE);
-            g.fillRect((int) (50 * xpos), (int) (50 * ypos), 50, 50);
+            g.fillRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
             g.setColor(Color.BLACK);
-            g.drawRect((int) (50 * xpos), (int) (50 * ypos), 50, 50);
+            g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
         }
         else {
             g.setColor(Color.RED);
-            g.fillRect((int) (50 * xpos), (int) (50 * ypos), 50, 50);
+            g.fillRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
             g.setColor(Color.BLACK);
-            g.drawRect((int) (50 * xpos), (int) (50 * ypos), 50, 50);
+            g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
         }
     }
 }

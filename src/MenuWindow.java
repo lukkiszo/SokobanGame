@@ -10,7 +10,7 @@ public class MenuWindow extends JFrame{
     JButton startButton, scoresButton, exitButton;
     JTextField nick;
     JPanel pan = new JPanel();
-    String nickname;
+    public String nickname;
     int levelNumber = 1;
 
     Dimension minSize = new Dimension(1, 1);

@@ -18,10 +18,15 @@ public class Player extends JComponent {
     public boolean upCollision = false;
     public boolean downCollision = false;
 
-    double width = 50;
-    double height = 50;
+    public double width;
+    public double height;
+
+    public int prefWidth = 50;
+    public int prefHeight = 50;
 
     public Player(int levelNumber) throws IOException {
+        width = prefWidth;
+        height = prefHeight;
         lev = Reader.makeLevel(levelNumber);
         position = new double[2];
         position[0] = lev.playerPosition.elementAt(0).a;
@@ -54,6 +59,6 @@ public class Player extends JComponent {
         g.setColor(Color.GREEN);
         g.fillOval((int) (width*position[0]), (int) (height*position[1]), (int) width, (int) height);
         g.setColor(Color.BLACK);
-        g.drawOval((int) (width*position[0]), (int) (height*position[1]), (int) width, (int) height);
+        g.drawOval((int) (width*position[0]), (int) (height*position[1]),(int) width, (int) height);
     }
 }
