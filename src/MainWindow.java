@@ -14,7 +14,10 @@ public class MainWindow extends JFrame {
     public int prefWidth;
     public int prefHeight;
 
+    private Game game1;
+
     MainWindow(Game game){
+        game1 = game;
         currentHeight = reader.prefHeight;
         currentWidth = reader.prefWidth;
         reader.getPrefSize();
@@ -49,6 +52,6 @@ public class MainWindow extends JFrame {
 
     public void makeLevel(int levelNr) {
         this.dispose();
-        NextLevelMenu nextLevel = new NextLevelMenu(levelNr);
+        NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
     }
 }

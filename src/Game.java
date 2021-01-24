@@ -12,13 +12,16 @@ public class Game extends JComponent implements Runnable{
     public Keys keys;
     Thread thread;
 
+    String nickname;
+
     long currentTime;
     long lastTime = 0;
 
     private boolean running = false;
     private MainWindow mainWindow;
 
-    public Game(int levelNr) throws IOException {
+    public Game(int levelNr, String nick) throws IOException {
+        nickname = nick;
         levelNumber = levelNr;
         lev = Reader.makeLevel(levelNumber);
         walls = new Walls[lev.wallsPosition.size()];
@@ -204,9 +207,8 @@ public class Game extends JComponent implements Runnable{
         }
     }
 
-    public boolean nextLevel() throws IOException {
+    public boolean nextLevel(){
         levelNumber += 1;
-        System.out.println(levelNumber);
         mainWindow.makeLevel(levelNumber);
         return true;
     }
@@ -223,7 +225,6 @@ public class Game extends JComponent implements Runnable{
             repaint();
         }
         stop();
-//        update();
     }
 
     public synchronized void stop() {
