@@ -21,49 +21,36 @@ public class GetValuesFromReader {
 
         String[] arr1 = obstacles.split(";");
         Integer[] int_obstacles = new Integer[arr1.length * 2];
-//        System.out.println("Obstacles: ");
         for (int i = 0 ; i < arr1.length ; i++)
         {
             String[] arr2 = arr1[i].split(",");
-//            System.out.println(Integer.parseInt(arr2[0]) + "," + Integer.parseInt(arr2[1]) );
             int_obstacles[i*2] = Integer.parseInt(arr2[0]);
             int_obstacles[(i*2)+1] = Integer.parseInt(arr2[1]);
         }
 
         String[] arr3 = walls.split(";");
         Integer[] int_walls = new Integer[arr3.length * 2];
-//        System.out.println("Walls: ");
         for (int i = 0 ; i < arr3.length ; i++) {
             String[] arr4 = arr3[i].split(",");
-//            System.out.println(Integer.parseInt(arr4[0]) + "," + Integer.parseInt(arr4[1]) );
             int_walls[i*2] = Integer.parseInt(arr4[0]);
             int_walls[(i*2)+1] = Integer.parseInt(arr4[1]);
         }
 
-//        System.out.println("Player Position: ");
         String[] arr5 = playerPosition.split(",");
         Integer[] plPos = new Integer[2];
         plPos[0] = Integer.parseInt(arr5[0]);
         plPos[1] = Integer.parseInt(arr5[1]);
-//        System.out.println(Integer.parseInt(arr5[0]) + "," + Integer.parseInt(arr5[1]) );
 
         String[] arr6 = correctPlaces.split(";");
         Integer[] int_correctPlacesPosition = new Integer[arr6.length * 2];
-//        System.out.println("correctPlaces: ");
         for (int i = 0 ; i < arr6.length ; i++) {
             String[] arr7 = arr6[i].split(",");
-//            System.out.println(Integer.parseInt(arr7[0]) + "," + Integer.parseInt(arr7[1]) );
             int_correctPlacesPosition[i*2] = Integer.parseInt(arr7[0]);
             int_correctPlacesPosition[(i*2)+1] = Integer.parseInt(arr7[1]);
         }
 
-
         int levelNumber = Integer.parseInt(levelNumber_str);
         int numberOfObstacles = Integer.parseInt(numberOfObstacles_str);
-//        System.out.println("Level Number: ");
-//        System.out.println(levelNumber);
-//        System.out.println("Number of Obstacles: ");
-//        System.out.println(numberOfObstacles);
 
         return new Sextet<>(plPos, int_walls, int_obstacles, levelNumber, numberOfObstacles, int_correctPlacesPosition);
     }

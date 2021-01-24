@@ -232,7 +232,8 @@ public class MenuWindow extends JFrame{
 
         scButton.addActionListener(event -> {
             try {
-                makeLevel();
+                nickname = nick.getText();
+                makeLevel(levelNumber);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -240,43 +241,10 @@ public class MenuWindow extends JFrame{
 
     }
 
-    void makeLevel() throws IOException {
-        nickname = nick.getText();
-        System.out.println(nickname);
-        getContentPane().removeAll();
-        Reader.makeLevel(levelNumber);
-
+    public void makeLevel(int levelNr) throws IOException {
         dispose();
-        Game gam = new Game();
-//        MainWindow men = new MainWindow(gam);
-//        men.addKeyListener(gam.keys);
-//        SwingUtilities.invokeLater((Runnable) gam);
-
-//        Graphics g = getContentPane().getGraphics();
-//        this.paintComponents(g);
-
+        Game gam = new Game(levelNr);
     }
-
-    //    @Override
-//    public void paintComponents(Graphics g) {
-//        try {
-//            var g2d = (Graphics2D) g;
-//            super.paintComponents(g2d);
-//
-//            Level lev = Reader.makeLevel(1);
-//
-//            for(int i = 0; i<lev.wallsPosition.size(); i++)
-//            {
-//                g2d.setColor(Color.WHITE);
-//                g2d.fillRect(50 * lev.wallsPosition.elementAt(i).a, 50 * lev.wallsPosition.elementAt(i).b, 50,50);
-//                g2d.setColor(Color.BLACK);
-//                g2d.drawRect(50 * lev.wallsPosition.elementAt(i).a, 50 * lev.wallsPosition.elementAt(i).b, 50,50);
-////                g2d.draw(new Rectangle2D.Double(40 * lev.wallsPosition.elementAt(i).a, 40 * lev.wallsPosition.elementAt(i).b, 40,40));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
     public static void main(String[] args) {

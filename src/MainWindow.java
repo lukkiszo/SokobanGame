@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MainWindow extends JFrame {
     Reader reader = new Reader();
@@ -15,5 +16,10 @@ public class MainWindow extends JFrame {
         this.addKeyListener(game.keys);
         this.setVisible(true);
         game.start();
+    }
+
+    public void makeLevel(int levelNr) throws IOException {
+        this.dispose();
+        Game gam = new Game(levelNr);
     }
 }
