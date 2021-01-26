@@ -50,8 +50,14 @@ public class MainWindow extends JFrame {
         });
     }
 
-    public void makeLevel(int levelNr) {
+    public void makeLevel(int levelNr) throws IOException {
         this.dispose();
-        NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
+        if(levelNr <= Reader.getNumberOfLevels()){
+            NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
+        }
+        else{
+            EndGameMenu endGameMenu = new EndGameMenu(game1.nickname);
+        }
+//        NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
     }
 }

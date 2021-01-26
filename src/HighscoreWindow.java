@@ -33,7 +33,7 @@ public class HighscoreWindow extends JFrame {
         setSize(prefWidth,prefHeight);
         setLocationRelativeTo(null);
 
-        back = new JButton("< Back");
+        back = new JButton("< Go to MainMenu");
         label2 = new JLabel("Highscores" );
         score1 = new JLabel("1.  ABCD    123456789");
         score2 = new JLabel("2.  ACBD    122456789");

@@ -207,7 +207,7 @@ public class Game extends JComponent implements Runnable{
         }
     }
 
-    public boolean nextLevel(){
+    public boolean nextLevel() throws IOException {
         levelNumber += 1;
         mainWindow.makeLevel(levelNumber);
         return true;

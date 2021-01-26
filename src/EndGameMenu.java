@@ -2,11 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
 
-public class NextLevelMenu extends JFrame {
-//    Level level = new Level();
-    private JButton nextLevel;
+public class EndGameMenu extends JFrame {
+
+    private JButton highscores;
     private JButton exit;
     private JLabel title;
     private JPanel pan;
@@ -19,12 +18,11 @@ public class NextLevelMenu extends JFrame {
     public int prefWidth = 800;
     public int prefHeight = 600;
 
-    private int level;
     Dimension minSize = new Dimension(1, 1);
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
-    NextLevelMenu(int number, String nick){
+    EndGameMenu(String nick){
         super("SOKOBAN");
         getContentPane().setBackground(Color.darkGray);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,9 +30,9 @@ public class NextLevelMenu extends JFrame {
         setSize(prefWidth,prefHeight);
         setLocationRelativeTo(null);
         pan = new JPanel();
-        title = new JLabel("Level" + (number-1) + "complete");
+        title = new JLabel("You Won!");
 
-        nextLevel = new JButton( "Next Level");
+        highscores = new JButton( "Show Highscores");
         exit = new JButton("Return to Main Menu");
 
         title.setFont(new Font ("Consolas", Font.PLAIN, 50));
@@ -45,11 +43,11 @@ public class NextLevelMenu extends JFrame {
         pan.add(new Box.Filler(minSize, prefSize, maxSize));
         pan.add(title);
 
-        nextLevel.setFont(new Font("Consolas", Font.PLAIN, 25 ));
-        nextLevel.setBackground(Color.darkGray);
-        nextLevel.setForeground(Color.white);
-        nextLevel.setBorderPainted(false);
-        nextLevel.setFocusable(false);
+        highscores.setFont(new Font("Consolas", Font.PLAIN, 25 ));
+        highscores.setBackground(Color.darkGray);
+        highscores.setForeground(Color.white);
+        highscores.setBorderPainted(false);
+        highscores.setFocusable(false);
 
         exit.setFont(new Font("Consolas", Font.PLAIN, 25));
         exit.setBackground(Color.darkGray);
@@ -58,24 +56,29 @@ public class NextLevelMenu extends JFrame {
         exit.setForeground(Color.white);
 
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        nextLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        highscores.setAlignmentX(Component.CENTER_ALIGNMENT);
         exit.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(pan, BorderLayout.CENTER);
         this.setContentPane(pan);
         setVisible(true);
 
-        level = number;
         nickname = nick;
         initComponents();
 
         exit.addActionListener(event -> saveAndMainMenu());
-        nextLevel.addActionListener(event -> {
-            try {
-                makeLevel(nickname);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        highscores.addActionListener(event -> saveAndHighscores());
+    }
+
+    public void saveAndMainMenu()
+    {
+        dispose();
+        new MenuWindow().setVisible(true);
+    }
+
+    private void saveAndHighscores()
+    {
+        dispose();
+        new HighscoreWindow();
     }
 
     private void initComponents() {
@@ -88,30 +91,17 @@ public class NextLevelMenu extends JFrame {
                 currentHeight = e.getComponent().getSize().height;
 
                 exit.setFont(new Font("Consolas", Font.PLAIN, (int) (25*((double)currentWidth/(double)prefWidth))));
-                nextLevel.setFont(new Font("Consolas", Font.PLAIN, (int) (25*((double)currentWidth/(double)prefWidth))));
+                highscores.setFont(new Font("Consolas", Font.PLAIN, (int) (25*((double)currentWidth/(double)prefWidth))));
                 title.setFont(new Font("Consolas", Font.PLAIN, (int) (50*((double)currentWidth/(double)prefWidth))));
                 pan.removeAll();
                 pan.add(new Box.Filler(minSize, prefSize, maxSize));
                 pan.add(title);
                 pan.add(Box.createRigidArea(new Dimension(0, (int) (90*((double)currentWidth/(double)prefWidth)))));
-                pan.add(nextLevel);
+                pan.add(highscores);
                 pan.add(Box.createRigidArea(new Dimension(0, (int) (80*((double)currentWidth/(double)prefWidth)))));
                 pan.add(exit);
                 pan.add(new Box.Filler(minSize, prefSize, maxSize));
             }
         });
-    }
-
-    public void makeLevel(String nickname) throws IOException {
-        dispose();
-        if(level <= Reader.getNumberOfLevels()) {
-            Game gam = new Game(level, nickname);
-        }
-    }
-
-    public void saveAndMainMenu()
-    {
-        dispose();
-        new MenuWindow().setVisible(true);
     }
 }
