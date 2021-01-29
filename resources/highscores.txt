@@ -1,0 +1,5 @@
+nickname4;1000
+proba1;1000
+nickname3;1500
+nickname2;14241
+nickname1;152155215

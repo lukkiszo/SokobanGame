@@ -16,10 +16,12 @@ public class MainWindow extends JFrame {
 
     private Game game1;
 
+    public static int totalScore = 0;
+
     MainWindow(Game game){
         game1 = game;
-        currentHeight = reader.prefHeight;
-        currentWidth = reader.prefWidth;
+//        currentHeight = reader.prefHeight;
+//        currentWidth = reader.prefWidth;
         reader.getPrefSize();
         prefHeight = reader.prefHeight;
         prefWidth = reader.prefWidth;
@@ -52,11 +54,12 @@ public class MainWindow extends JFrame {
 
     public void makeLevel(int levelNr) throws IOException {
         this.dispose();
+        totalScore += game1.score;
         if(levelNr <= Reader.getNumberOfLevels()){
-            NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
+            NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname, (int) game1.score);
         }
         else{
-            EndGameMenu endGameMenu = new EndGameMenu(game1.nickname);
+            EndGameMenu endGameMenu = new EndGameMenu(game1.nickname, totalScore, (int) game1.score);
         }
 //        NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
     }

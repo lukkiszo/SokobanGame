@@ -12,6 +12,22 @@ public class Game extends JComponent implements Runnable{
     public Keys keys;
     Thread thread;
 
+    public enum GameState {running, pause}
+
+    public GameState gameState;
+
+    public boolean escapePressed = false;
+    public boolean gamePaused = false;
+    public boolean nextLevelMenuShown = false;
+
+    public double score;
+    private int numberOfMoves = 0;
+    private int numberOfLevels;
+    private long allTime;
+    private long startTime;
+    private long stopTime;
+    private int numberOfBackMoves;
+
     String nickname;
 
     long currentTime;
@@ -19,6 +35,7 @@ public class Game extends JComponent implements Runnable{
 
     private boolean running = false;
     private MainWindow mainWindow;
+    private PauseMenu pauseMenu;
 
     public Game(int levelNr, String nick) throws IOException {
         nickname = nick;
@@ -30,6 +47,9 @@ public class Game extends JComponent implements Runnable{
             walls[i] = new Walls(levelNumber, i);
         }
         player = new Player(levelNumber);
+
+        numberOfLevels = Reader.getNumberOfLevels();
+        numberOfBackMoves = 0;
 
 // zrobione tak ze jest tyle samo dobrych miejsc co przeszkod
 // jesli chcielibysmy zrobic wiecej dobrych miejsc niz przeszkod to trzeba zmienic, tak samo w paintComponent, tak samo w resizeAll()
@@ -44,12 +64,14 @@ public class Game extends JComponent implements Runnable{
 
         keys = new Keys(player, this);
         mainWindow = new MainWindow(this);
+        gameState = GameState.running;
     }
 
     public void start() {
         thread = new Thread(this);
         thread.start();
         running = true;
+//        gaming = true;
         System.out.println("START");
     }
 
@@ -98,6 +120,7 @@ public class Game extends JComponent implements Runnable{
                     if(player.goRight && !obstacle[i].rightCollision && !obstacle[i].rightWall){
                         obstacle[i].xpos += 1;
                         player.position[0] += 1;
+                        numberOfMoves += 1;
                     }
                 }
 
@@ -106,6 +129,7 @@ public class Game extends JComponent implements Runnable{
                     if (player.goDown && !obstacle[i].downCollision && !obstacle[i].downWall) {
                         obstacle[i].ypos += 1;
                         player.position[1] += 1;
+                        numberOfMoves += 1;
                     }
                 }
 
@@ -114,6 +138,7 @@ public class Game extends JComponent implements Runnable{
                     if (player.goUp && !obstacle[i].upCollision && !obstacle[i].upWall) {
                         obstacle[i].ypos -= 1;
                         player.position[1] -= 1;
+                        numberOfMoves += 1;
                     }
                 }
 
@@ -122,6 +147,7 @@ public class Game extends JComponent implements Runnable{
                     if (player.goLeft && !obstacle[i].leftCollision && !obstacle[i].leftWall) {
                         obstacle[i].xpos -= 1;
                         player.position[0] -= 1;
+                        numberOfMoves += 1;
                     }
                 }
 
@@ -188,41 +214,49 @@ public class Game extends JComponent implements Runnable{
         return victory;
     }
 
-    public void playerMove()
-    {
+    public void playerMove() {
         for(int i = 0; i<lev.numberOfObstacles; i++) {
             if (player.goRight && !player.rightWall && !player.rightCollision && !obstacle[i].rightWall) {
                 player.position[0] += 1;
+                numberOfMoves += 1;
                 break;
             } else if (player.goLeft && !player.leftWall && !player.leftCollision && !obstacle[i].leftWall) {
                 player.position[0] -= 1;
+                numberOfMoves += 1;
                 break;
             } else if (player.goUp && !player.upWall && !player.upCollision && !obstacle[i].upWall) {
                 player.position[1] -= 1;
+                numberOfMoves += 1;
                 break;
             } else if (player.goDown && !player.downWall && !player.downCollision && !obstacle[i].downWall) {
                 player.position[1] += 1;
+                numberOfMoves += 1;
                 break;
             }
         }
     }
 
-    public boolean nextLevel() throws IOException {
+    public void nextLevel() throws IOException {
+        numberOfMoves = 0;
         levelNumber += 1;
+        nextLevelMenuShown = true;
         mainWindow.makeLevel(levelNumber);
-        return true;
     }
 
     @Override
     public void run() {
+        startTime = System.currentTimeMillis();
         while (running)
         {
-            try {
-                update();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            repaint();
+
+//                gamePaused = pause();
+                try {
+                    update();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                repaint();
+
         }
         stop();
     }
@@ -231,28 +265,90 @@ public class Game extends JComponent implements Runnable{
         try {
             thread.join();
             running = false;
+//            gaming = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void update() throws IOException {
-        currentTime = System.currentTimeMillis();
-
-        if(currentTime - lastTime > 300) {
-            player.collisionWithWalls();
-            collisionWithObstacles();
-            playerMove();
-            collisionWithOtherObstacle();
-            collisionObstacleWall();
-            isOnCorrectPlace();
-
-            if(isVictory())
-            {
-                nextLevel();
-            }
-            lastTime = System.currentTimeMillis();
+    private void updateScore(){
+        int wsp_cofniec;
+        switch (numberOfBackMoves) {
+            case 2:
+            case 3:
+                wsp_cofniec = 1000;
+                break;
+            case 4:
+            case 5:
+                wsp_cofniec = 5000;
+                break;
+            default:
+                wsp_cofniec = 7500;
+                break;
         }
+        allTime = stopTime - startTime;
+        score = (1/((double)numberOfMoves+1)) * 80000 * (levelNumber / (double)numberOfLevels) + (1 +(1/(double)(allTime/1000)) * 50000 + (double) lev.numberOfObstacles * 10000 - (double) (numberOfBackMoves - 1) * wsp_cofniec);
+    }
+
+//    public void isPaused(){
+//        if (escapePressed && !gamePaused) {
+//            gameState = GameState.pause;
+//        }
+//        else if (escapePressed && gamePaused){
+//            gameState = GameState.running;
+//        }
+//    }
+//
+//    public boolean pause(){
+//        boolean isPaused = false;
+//        if (gameState == GameState.running){
+//            mainWindow.setVisible(false);
+//            pauseMenu = new PauseMenu(this);
+//            System.out.println("tworze nowy obiekt");
+////            gaming = false;
+//            isPaused = true;
+//        }
+//        if (gameState == GameState.pause){
+//            pauseMenu.setVisible(false);
+//            mainWindow.setVisible(true);
+//            System.out.println("niszcze obiekt");
+////            gaming = true;
+//            isPaused = false;
+//        }
+//
+//        return isPaused;
+//    }
+
+    public void update() throws IOException{
+//        switch (gameState){
+//            case running:
+                currentTime = System.currentTimeMillis();
+
+                if(currentTime - lastTime > 300) {
+                    player.collisionWithWalls();
+                    collisionWithObstacles();
+                    playerMove();
+                    collisionWithOtherObstacle();
+                    collisionObstacleWall();
+                    isOnCorrectPlace();
+                    updateScore();
+                    stopTime = System.currentTimeMillis();
+//                    gamePaused = pause();
+//                    isPaused();
+                    if(isVictory() && !nextLevelMenuShown)
+                    {
+                        nextLevel();
+                    }
+                    lastTime = System.currentTimeMillis();
+                }
+//                break;
+//            case pause:
+////                pause();
+//                break;
+//            default:
+//                break;
+//        }
+
 
     }
 
@@ -276,17 +372,23 @@ public class Game extends JComponent implements Runnable{
 
     @Override
     public void paintComponent(Graphics g) {
-        player.paintComponent(g);
+        for(int i = 0; i<lev.numberOfObstacles; i++)
+        {
+            correctPlace[i].paintComponent(g);
+        }
+
         for(int i = 0; i<lev.numberOfObstacles; i++)
         {
             obstacle[i].paintComponent(g);
-            correctPlace[i].paintComponent(g);
         }
+        player.paintComponent(g);
 
         for(int i = 0; i<lev.wallsPosition.size(); i++)
         {
             walls[i].paintComponent(g);
         }
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+        g.drawString("Wynik: " + (int) score, (int) (obstacle[0].width*lev.numberOfObstacles + obstacle[0].width), (int) (obstacle[0].height));
 
     }
 }

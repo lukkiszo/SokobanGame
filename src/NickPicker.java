@@ -110,6 +110,7 @@ public class NickPicker extends JFrame{
 
     public void makeLevel(int levelNr) throws IOException {
         dispose();
+        MainWindow.totalScore = 0;
         Game gam = new Game(levelNr, nickname);
     }
 

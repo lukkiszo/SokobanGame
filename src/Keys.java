@@ -33,6 +33,10 @@ public class Keys extends KeyAdapter {
             player.goRight = true;
         }
 
+        if(key == KeyEvent.VK_ESCAPE){
+            game.escapePressed = true;
+        }
+
     }
 
     @Override
@@ -52,6 +56,10 @@ public class Keys extends KeyAdapter {
         }
         if(key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT){
             player.goRight = false;
+        }
+
+        if(key == KeyEvent.VK_ESCAPE){
+            game.escapePressed = false;
         }
 
     }

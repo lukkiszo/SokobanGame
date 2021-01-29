@@ -28,6 +28,7 @@ public class CorrectPlaces extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
             g.setColor(Color.BLUE);
-            g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
+//            g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
+            g.fillOval((int) ((int) (width * xpos) + (width/2) - width/5), (int) ((int) (height * ypos) + (height/2) - height/5), (int) (2*width)/5, (int) (2*height)/5);
     }
 }

@@ -9,6 +9,7 @@ public class NextLevelMenu extends JFrame {
     private JButton nextLevel;
     private JButton exit;
     private JLabel title;
+    private JLabel scoreLabel;
     private JPanel pan;
 
     String nickname;
@@ -24,7 +25,7 @@ public class NextLevelMenu extends JFrame {
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
-    NextLevelMenu(int number, String nick){
+    NextLevelMenu(int number, String nick, int score){
         super("SOKOBAN");
         getContentPane().setBackground(Color.darkGray);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,13 +33,16 @@ public class NextLevelMenu extends JFrame {
         setSize(prefWidth,prefHeight);
         setLocationRelativeTo(null);
         pan = new JPanel();
-        title = new JLabel("Level" + (number-1) + "complete");
+        title = new JLabel("Level " + (number-1) + " complete");
+        scoreLabel = new JLabel("Score: " + (int)score);
 
         nextLevel = new JButton( "Next Level");
         exit = new JButton("Return to Main Menu");
 
         title.setFont(new Font ("Consolas", Font.PLAIN, 50));
         title.setForeground(Color.white);
+
+        scoreLabel.setForeground(Color.white);
 
         pan.setBackground(Color.darkGray);
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -59,6 +63,7 @@ public class NextLevelMenu extends JFrame {
 
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         nextLevel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         exit.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(pan, BorderLayout.CENTER);
         this.setContentPane(pan);
@@ -68,7 +73,13 @@ public class NextLevelMenu extends JFrame {
         nickname = nick;
         initComponents();
 
-        exit.addActionListener(event -> saveAndMainMenu());
+        exit.addActionListener(event -> {
+            try {
+                saveAndMainMenu(score);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         nextLevel.addActionListener(event -> {
             try {
                 makeLevel(nickname);
@@ -90,9 +101,12 @@ public class NextLevelMenu extends JFrame {
                 exit.setFont(new Font("Consolas", Font.PLAIN, (int) (25*((double)currentWidth/(double)prefWidth))));
                 nextLevel.setFont(new Font("Consolas", Font.PLAIN, (int) (25*((double)currentWidth/(double)prefWidth))));
                 title.setFont(new Font("Consolas", Font.PLAIN, (int) (50*((double)currentWidth/(double)prefWidth))));
+                scoreLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, (int) (40*((double)currentWidth/(double)prefWidth))));
                 pan.removeAll();
                 pan.add(new Box.Filler(minSize, prefSize, maxSize));
                 pan.add(title);
+                pan.add(Box.createRigidArea(new Dimension(0, (int) (90*((double)currentWidth/(double)prefWidth)))));
+                pan.add(scoreLabel);
                 pan.add(Box.createRigidArea(new Dimension(0, (int) (90*((double)currentWidth/(double)prefWidth)))));
                 pan.add(nextLevel);
                 pan.add(Box.createRigidArea(new Dimension(0, (int) (80*((double)currentWidth/(double)prefWidth)))));
@@ -109,9 +123,10 @@ public class NextLevelMenu extends JFrame {
         }
     }
 
-    public void saveAndMainMenu()
-    {
+    public void saveAndMainMenu(int score) throws IOException {
         dispose();
+        HighscoresParser parser = new HighscoresParser();
+        parser.addHighscore(new HighScore(nickname, score));
         new MenuWindow().setVisible(true);
     }
 }
