@@ -1,9 +1,13 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 public class Player extends JComponent {
     Level lev;
+    Reader reader = new Reader();
     public double[] position;
     public boolean goRight = false;
     public boolean goLeft = false;
@@ -17,9 +21,12 @@ public class Player extends JComponent {
     public boolean leftCollision = false;
     public boolean upCollision = false;
     public boolean downCollision = false;
-
+    public boolean isOnTeleport = false;
+    public BufferedImage image;
     public double width;
     public double height;
+
+    public boolean wantToDelete = false;
 
     public int prefWidth = 50;
     public int prefHeight = 50;
@@ -31,6 +38,11 @@ public class Player extends JComponent {
         position = new double[2];
         position[0] = lev.playerPosition.elementAt(0).a;
         position[1] = lev.playerPosition.elementAt(0).b;
+
+        prefWidth = Reader.prefWidth /lev.numberOfWallsX;
+        prefHeight = Reader.prefHeight /(lev.numberOfWallsY+2);
+        File imageFile = new File("resources/player.png");
+        image = ImageIO.read(imageFile);
     }
 
     public void collisionWithWalls()
@@ -55,10 +67,6 @@ public class Player extends JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-        g.setColor(Color.GREEN);
-        g.fillOval((int) (width*position[0]), (int) (height*position[1]), (int) width, (int) height);
-        g.setColor(Color.BLACK);
-        g.drawOval((int) (width*position[0]), (int) (height*position[1]),(int) width, (int) height);
+        g.drawImage(image, (int) (width * (position[0])), (int) (height * (position[1]+1)), (int) width, (int) height, null);
     }
 }

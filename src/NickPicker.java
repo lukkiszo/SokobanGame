@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
 public class NickPicker extends JFrame{
@@ -15,8 +13,6 @@ public class NickPicker extends JFrame{
 
     public String nickname;
 
-    public int currentWidth;
-    public int currentHeight;
 
     public int prefWidth = 800;
     public int prefHeight = 600;
@@ -38,6 +34,8 @@ public class NickPicker extends JFrame{
         back = new JButton("< Back");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         pan.setLayout(new FlowLayout());
+
+        this.setIconImage(new ImageIcon("resources/icon.png").getImage());
 
         label.setForeground(Color.WHITE);
         label.setBackground(Color.darkGray);
@@ -87,8 +85,6 @@ public class NickPicker extends JFrame{
 
         back.addActionListener(event -> backAction());
 
-//        initComponents();
-
         setVisible(true);
         repaint();
 
@@ -102,7 +98,7 @@ public class NickPicker extends JFrame{
         });
     }
 
-    void backAction()
+    public void backAction()
     {
         this.dispose();
         new MenuWindow().setVisible(true);
@@ -113,42 +109,5 @@ public class NickPicker extends JFrame{
         MainWindow.totalScore = 0;
         Game gam = new Game(levelNr, nickname);
     }
-
-//    private void initComponents() {
-//        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//
-//        this.addComponentListener(new ComponentAdapter() {
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                currentWidth = e.getComponent().getSize().width;
-//                currentHeight = e.getComponent().getSize().height;
-//
-//                label.setFont(new Font("Consolas", Font.PLAIN, (int) (18*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-//                back.setFont(new Font("Consolas", Font.PLAIN, (int) (18*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-//                label2.setFont(new Font("Consolas", Font.PLAIN, (int) (35*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-//                scButton.setFont(new Font("Consolas", Font.PLAIN, (int) (18*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-//
-//                pan.removeAll();
-//                pan.add(label);
-//                nick = new JTextField((int) (25*((double)currentWidth/((double)prefWidth))));
-//                pan.add(nick);
-//
-//                add(Box.createRigidArea(new Dimension(0, (int) (30*((double)currentHeight/(double)prefHeight)))));
-//                add(new Box.Filler(minSize, prefSize, maxSize));
-//                add(label2);
-//                add(Box.createRigidArea(new Dimension(0, (int) (140*((double)currentHeight/(double)prefHeight)))));
-//                add(new Box.Filler(minSize, prefSize, maxSize));
-//                add(pan);
-//                add(Box.createRigidArea(new Dimension(0, (int) (20*((double)currentHeight/(double)prefHeight)))));
-//                add(new Box.Filler(minSize, prefSize, maxSize));
-//                add(scButton);
-//                add(Box.createRigidArea(new Dimension(0, (int) (60*((double)currentHeight/(double)prefHeight)))));
-//                add(new Box.Filler(minSize, prefSize, maxSize));
-//                add(back);
-//                add(Box.createRigidArea(new Dimension(0, (int) (30*((double)currentHeight/(double)prefHeight)))));
-//                add(new Box.Filler(minSize, prefSize, maxSize));
-//            }
-//        });
-//    }
 
 }

@@ -7,8 +7,8 @@ public class Reader {
     static Properties props = new Properties();
     static InputStream input = null;
     static String readFileName = null;
-    int prefHeight;
-    int prefWidth;
+    static int prefHeight;
+    static int prefWidth;
 
     public static Level makeLevel(Integer number) throws IOException {
         input = new FileInputStream("resources\\config.txt");
@@ -17,7 +17,7 @@ public class Reader {
         return new Level(readFileName);
     }
 
-    public void getPrefSize()
+    public static void getPrefSize()
     {
         prefWidth = Integer.parseInt(props.getProperty("prefWidth"));
         prefHeight = Integer.parseInt(props.getProperty("prefHeight"));
@@ -27,12 +27,5 @@ public class Reader {
         input = new FileInputStream("resources\\config.txt");
         props.load(input);
         return Integer.parseInt(props.getProperty("numberOfFiles"));
-    }
-
-    public static void main(String[] args) throws IOException {
-        for(int i = 0; i < Reader.getNumberOfLevels(); i++)
-        {
-            Reader.makeLevel(i+1);
-        }
     }
 }

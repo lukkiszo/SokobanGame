@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 
 public class EndGameMenu extends JFrame {
 
@@ -11,6 +12,8 @@ public class EndGameMenu extends JFrame {
     private JLabel scoreLabel;
     private JLabel totalScoreLabel;
     private JPanel pan;
+
+    HighscoresParser parser = new HighscoresParser();
 
     String nickname;
 
@@ -24,7 +27,7 @@ public class EndGameMenu extends JFrame {
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
-    EndGameMenu(String nick, int totalScore, double score){
+    EndGameMenu(String nick, int totalScore, double score) throws IOException {
         super("SOKOBAN");
         getContentPane().setBackground(Color.darkGray);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +38,8 @@ public class EndGameMenu extends JFrame {
         title = new JLabel("You Won!");
         scoreLabel = new JLabel("Score: " + (int) score);
         totalScoreLabel = new JLabel("Total Score: " + totalScore);
+
+        this.setIconImage(new ImageIcon("resources/icon.png").getImage());
 
         highscores = new JButton( "Show Highscores");
         exit = new JButton("Return to Main Menu");
@@ -74,19 +79,35 @@ public class EndGameMenu extends JFrame {
         nickname = nick;
         initComponents();
 
-        exit.addActionListener(event -> saveAndMainMenu());
-        highscores.addActionListener(event -> saveAndHighscores());
+        exit.addActionListener(event -> {
+            try {
+                saveAndMainMenu(totalScore);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        highscores.addActionListener(event -> {
+            try {
+                saveAndHighscores(totalScore);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    public void saveAndMainMenu()
-    {
+    public void saveAndMainMenu(int totalScore) throws IOException {
         dispose();
+        parser.read();
+        parser.addHighscore(new HighScore(nickname, totalScore));
+        parser.zapisPliku();
         new MenuWindow().setVisible(true);
     }
 
-    private void saveAndHighscores()
-    {
+    private void saveAndHighscores(int totalScore) throws IOException {
         dispose();
+        parser.read();
+        parser.addHighscore(new HighScore(nickname, totalScore));
+        parser.zapisPliku();
         new HighscoreWindow();
     }
 

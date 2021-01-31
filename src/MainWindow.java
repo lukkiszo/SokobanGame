@@ -2,36 +2,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 
 public class MainWindow extends JFrame {
-    Reader reader = new Reader();
-
     public int currentWidth;
     public int currentHeight;
 
     public int prefWidth;
     public int prefHeight;
 
-    private Game game1;
+    private final Game game;
 
     public static int totalScore = 0;
+    public Keys keys;
 
     MainWindow(Game game){
-        game1 = game;
-//        currentHeight = reader.prefHeight;
-//        currentWidth = reader.prefWidth;
-        reader.getPrefSize();
-        prefHeight = reader.prefHeight;
-        prefWidth = reader.prefWidth;
+        keys = new Keys(game.getPlayer(), game);
+        this.game = game;
+        Reader.getPrefSize();
+        prefHeight = Reader.prefHeight;
+        prefWidth = Reader.prefWidth;
         this.setTitle("Sokoban");
-        this.setSize(new Dimension(reader.prefWidth, reader.prefHeight));
+        this.setSize(new Dimension(Reader.prefWidth, Reader.prefHeight));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         this.setLocationRelativeTo(null);
         this.add(game);
-        this.addKeyListener(game.keys);
+        this.addKeyListener(keys);
         this.setVisible(true);
         game.start();
         initComponents(game);
@@ -54,13 +51,12 @@ public class MainWindow extends JFrame {
 
     public void makeLevel(int levelNr) throws IOException {
         this.dispose();
-        totalScore += game1.score;
+        totalScore += game.score;
         if(levelNr <= Reader.getNumberOfLevels()){
-            NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname, (int) game1.score);
+            NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game.nickname, (int) game.score);
         }
         else{
-            EndGameMenu endGameMenu = new EndGameMenu(game1.nickname, totalScore, (int) game1.score);
+            EndGameMenu endGameMenu = new EndGameMenu(game.nickname, totalScore, (int) game.score);
         }
-//        NextLevelMenu nextLevel = new NextLevelMenu(levelNr, game1.nickname);
     }
 }

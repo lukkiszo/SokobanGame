@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -7,6 +8,7 @@ public class HighscoresParser {
     Properties val = new Properties();
 
     Vector<HighScore> highscores = new Vector<>();
+    static HighScoreComparator comparator = new HighScoreComparator();
 
     HighscoresParser() throws IOException {
         file = new FileInputStream("resources\\highscores.txt");
@@ -18,24 +20,24 @@ public class HighscoresParser {
      * @param highScore a highscore gained on this level
      */
     void addHighscore(HighScore highScore){
-        if(highscores.size() < 5) highscores.add(highScore);
-        else if(highscores.elementAt(4).score < highScore.score) highscores.set(4, highScore);
-        else return;
+        if(highscores.elementAt(0).score > 0) {
+            if (highscores.size() < 5) highscores.add(highScore);
+            else if (highscores.elementAt(0).score < highScore.score) highscores.set(0, highScore);
+            else return;
+        }
+        highscores.sort(comparator);
+    }
+
+    /**
+     * Comparator that sorts {@link HighScore} object by their {@link HighScore#score} fields in an ascending order
+     */
+    static class HighScoreComparator implements Comparator<HighScore>
+    {
+        public int compare(HighScore h1, HighScore h2) { return h1.score - h2.score; }
     }
 
     void sort(Vector<HighScore> highscores){
-        for (int i = 0; i < highscores.size() - 1; i++){
-            for (int j = 0; j < highscores.size() - 1; j++){
-                if(highscores.elementAt(j).score > highscores.elementAt(j+1).score){
-                    int temp = highscores.elementAt(j).score;
-                    String temp1 = highscores.elementAt(j).nickname;
-                    highscores.elementAt(j).score = highscores.elementAt(j+1).score;
-                    highscores.elementAt(j).nickname = highscores.elementAt(j+1).nickname;
-                    highscores.elementAt(j+1).score = temp;
-                    highscores.elementAt(j+1).nickname = temp1;
-                }
-            }
-        }
+        highscores.sort(comparator);
     }
 
     public void zapisPliku() throws IOException {
@@ -60,13 +62,10 @@ public class HighscoresParser {
             String l = file.readLine();
             highscores.clear();
             while (l != null) {
-                System.out.println(l);
                 String[] p = l.split(";");
                 HighScore hs = new HighScore(p[0], Integer.parseInt(p[1]));
                 highscores.add(0, hs);
                 l = file.readLine();
-
-                System.out.println(highscores.size());
             }
             sort(highscores);
         } finally {
@@ -74,14 +73,5 @@ public class HighscoresParser {
                 file.close();
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        HighscoresParser parser = new HighscoresParser();
-        parser.read();
-        parser.addHighscore(new HighScore("proba", 1000));
-        parser.zapisPliku();
-
-
     }
 }

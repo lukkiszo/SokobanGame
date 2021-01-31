@@ -35,6 +35,8 @@ public class MenuWindow extends JFrame{
         pan = new JPanel();
         title = new JLabel("SOKOBAN");
 
+        this.setIconImage(new ImageIcon("resources/icon.png").getImage());
+
         startButton = new JButton( "Start");
         scoresButton = new JButton("Highscores");
         exitButton = new JButton("Exit");
@@ -70,13 +72,18 @@ public class MenuWindow extends JFrame{
         initComponents();
 
         exitButton.addActionListener(event -> System.exit(1));
-        scoresButton.addActionListener(event -> showHighscores());
+        scoresButton.addActionListener(event -> {
+            try {
+                showHighscores();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         startButton.addActionListener(event -> nickPicker());
 
     }
 
-    void showHighscores()
-    {
+    void showHighscores() throws IOException {
         dispose();
         new HighscoreWindow();
     }

@@ -2,16 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 
 public class HighscoreWindow extends JFrame {
-
     private JButton back;
     private JLabel label2;
-    private JLabel score1;
-    private JLabel score2;
-    private JLabel score3;
-    private JLabel score4;
-    private JLabel score5;
+
+    HighscoresParser parser = new HighscoresParser();
 
     private JPanel pan;
 
@@ -25,7 +22,7 @@ public class HighscoreWindow extends JFrame {
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
-    HighscoreWindow(){
+    HighscoreWindow() throws IOException {
         super("Highscores");
         getContentPane().setBackground(Color.darkGray);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,13 +30,13 @@ public class HighscoreWindow extends JFrame {
         setSize(prefWidth,prefHeight);
         setLocationRelativeTo(null);
 
+        this.setIconImage(new ImageIcon("resources/icon.png").getImage());
+
+        parser.read();
+        parser.sort(parser.highscores);
+
         back = new JButton("< Go to MainMenu");
         label2 = new JLabel("Highscores" );
-        score1 = new JLabel("1.  ABCD    123456789");
-        score2 = new JLabel("2.  ACBD    122456789");
-        score3 = new JLabel("3.  ADCB    121456789");
-        score4 = new JLabel("4.  ABDC    120456789");
-        score5 = new JLabel("5.  BCDA    119456789");
 
         pan = new JPanel();
 
@@ -51,26 +48,11 @@ public class HighscoreWindow extends JFrame {
         label2.setForeground(Color.WHITE);
         label2.setBackground(Color.darkGray);
         pan.setBackground(Color.darkGray);
-        score1.setForeground(Color.WHITE);
-        score1.setBackground(Color.darkGray);
-        score2.setForeground(Color.WHITE);
-        score2.setBackground(Color.darkGray);
-        score3.setForeground(Color.WHITE);
-        score3.setBackground(Color.darkGray);
-        score4.setForeground(Color.WHITE);
-        score4.setBackground(Color.darkGray);
-        score5.setForeground(Color.WHITE);
-        score5.setBackground(Color.darkGray);
         setLayout(new BorderLayout());
 
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
         label2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        score1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        score2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        score3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        score4.setAlignmentX(Component.CENTER_ALIGNMENT);
-        score5.setAlignmentX(Component.CENTER_ALIGNMENT);
         back.setAlignmentX(Component.CENTER_ALIGNMENT);
         back.addActionListener(event -> backAction());
         this.add(pan, BorderLayout.CENTER);
@@ -99,11 +81,6 @@ public class HighscoreWindow extends JFrame {
 
                 back.setFont(new Font("Consolas", Font.PLAIN, (int) (20*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
                 label2.setFont(new Font("Consolas", Font.PLAIN, (int) (35*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-                score1.setFont(new Font("Consolas", Font.PLAIN, (int) (25*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-                score2.setFont(new Font("Consolas", Font.PLAIN, (int) (25*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-                score3.setFont(new Font("Consolas", Font.PLAIN, (int) (25*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-                score4.setFont(new Font("Consolas", Font.PLAIN, (int) (25*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
-                score5.setFont(new Font("Consolas", Font.PLAIN, (int) (25*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
 
                 pan.removeAll();
 
@@ -111,21 +88,18 @@ public class HighscoreWindow extends JFrame {
                 pan.add(new Box.Filler(minSize, prefSize, maxSize));
                 pan.add(label2);
                 pan.add(Box.createRigidArea(new Dimension(0, (int) (65*((double)currentHeight/(double)prefHeight)))));
-                pan.add(score1);
-                pan.add(Box.createRigidArea(new Dimension(0, (int) (20*((double)currentHeight/(double)prefHeight)))));
-                pan.add(new Box.Filler(minSize, prefSize, maxSize));
-                pan.add(score2);
-                pan.add(Box.createRigidArea(new Dimension(0, (int) (20*((double)currentHeight/(double)prefHeight)))));
-                pan.add(new Box.Filler(minSize, prefSize, maxSize));
-                pan.add(score3);
-                pan.add(Box.createRigidArea(new Dimension(0, (int) (20*((double)currentHeight/(double)prefHeight)))));
-                pan.add(new Box.Filler(minSize, prefSize, maxSize));
-                pan.add(score4);
-                pan.add(Box.createRigidArea(new Dimension(0, (int) (20*((double)currentHeight/(double)prefHeight)))));
-                pan.add(new Box.Filler(minSize, prefSize, maxSize));
-                pan.add(score5);
-                pan.add(Box.createRigidArea(new Dimension(0, (int) (45*((double)currentHeight/(double)prefHeight)))));
-                pan.add(new Box.Filler(minSize, prefSize, maxSize));
+
+                for(int i = 0; i<parser.highscores.size(); i++)
+                {
+                    JLabel score = new JLabel((i+1) +".  " + parser.highscores.elementAt(parser.highscores.size() - 1 - i).nickname +"    " + parser.highscores.elementAt(parser.highscores.size() - 1 - i).score);
+                    score.setForeground(Color.WHITE);
+                    score.setBackground(Color.darkGray);
+                    score.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    score.setFont(new Font("Consolas", Font.PLAIN, (int) (25*(((double)currentWidth + (double)currentHeight)/((double)prefWidth + (double)prefHeight)))));
+                    pan.add(score);
+                    pan.add(Box.createRigidArea(new Dimension(0, (int) (20*((double)currentHeight/(double)prefHeight)))));
+                    pan.add(new Box.Filler(minSize, prefSize, maxSize));
+                }
                 pan.add(back);
                 pan.add(Box.createRigidArea(new Dimension(0, (int) (30*((double)currentHeight/(double)prefHeight)))));
                 pan.add(new Box.Filler(minSize, prefSize, maxSize));

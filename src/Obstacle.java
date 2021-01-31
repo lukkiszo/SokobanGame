@@ -8,6 +8,7 @@ import java.io.IOException;
 public class Obstacle extends JComponent {
     private Level lev;
 
+    Reader reader = new Reader();
     public boolean isOnCorrectPlace = false;
     public double xpos;
     public double ypos;
@@ -31,13 +32,16 @@ public class Obstacle extends JComponent {
     private BufferedImage image;
     private BufferedImage image1;
 
-//    nowy konstruktor
+    //    nowy konstruktor
     public Obstacle(int levelNumber, int index) throws IOException {
         width = prefWidth;
         height = prefHeight;
         lev = Reader.makeLevel(levelNumber);
         xpos = lev.obstaclesPosition.elementAt(index).a;
         ypos = lev.obstaclesPosition.elementAt(index).b;
+
+        prefWidth = Reader.prefWidth/lev.numberOfWallsX;
+        prefHeight = Reader.prefHeight/(lev.numberOfWallsY+2);
         File imageFile = new File("resources/box.png");
         image = ImageIO.read(imageFile);
         File imageFile1 = new File("resources/boxonplace.png");
@@ -48,20 +52,10 @@ public class Obstacle extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         setDoubleBuffered(true);
-        if(isOnCorrectPlace)
-        {
-            g.drawImage(image1, (int) (width * xpos), (int) (height * ypos), (int) width, (int) height, null );
-//            g.setColor(Color.ORANGE);
-//            g.fillRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
-//            g.setColor(Color.BLACK);
-//            g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
-        }
-        else {
-            g.drawImage(image, (int) (width * xpos), (int) (height * ypos), (int) width, (int) height, null );
-//            g.setColor(Color.RED);
-//            g.fillRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
-//            g.setColor(Color.BLACK);
-//            g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
-        }
+            if (isOnCorrectPlace) {
+                g.drawImage(image1, (int) (width * (xpos)), (int) (height * (ypos + 1)), (int) width, (int) height, null);
+            } else {
+                g.drawImage(image, (int) (width * (xpos)), (int) (height * (ypos + 1)), (int) width, (int) height, null);
+            }
     }
 }

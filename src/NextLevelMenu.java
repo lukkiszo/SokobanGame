@@ -5,7 +5,6 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
 public class NextLevelMenu extends JFrame {
-//    Level level = new Level();
     private JButton nextLevel;
     private JButton exit;
     private JLabel title;
@@ -126,7 +125,9 @@ public class NextLevelMenu extends JFrame {
     public void saveAndMainMenu(int score) throws IOException {
         dispose();
         HighscoresParser parser = new HighscoresParser();
+        parser.read();
         parser.addHighscore(new HighScore(nickname, score));
+        parser.zapisPliku();
         new MenuWindow().setVisible(true);
     }
 }

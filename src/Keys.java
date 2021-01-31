@@ -11,56 +11,23 @@ public class Keys extends KeyAdapter {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
     public void keyPressed(KeyEvent e) {
-//        super.keyPressed(e);
         int key = e.getKeyCode();
-
-
-        if(key == KeyEvent.VK_W || key == KeyEvent.VK_UP){
-            player.goUp = true;
-        }
-        if(key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN){
-            player.goDown = true;
-        }
-        if(key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT){
-            player.goLeft = true;
-        }
-        if(key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT){
-            player.goRight = true;
-        }
-
-        if(key == KeyEvent.VK_ESCAPE){
-            game.escapePressed = true;
-        }
-
+        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) player.goUp = true;
+        else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) player.goDown = true;
+        else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) player.goLeft = true;
+        else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) player.goRight = true;
+        else if (key == KeyEvent.VK_E) player.wantToDelete = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-//        super.keyReleased(e);
-
         int key = e.getKeyCode();
-
-        if(key == KeyEvent.VK_W || key == KeyEvent.VK_UP){
-            player.goUp = false;
-        }
-        if(key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN){
-            player.goDown = false;
-        }
-        if(key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT){
-            player.goLeft = false;
-        }
-        if(key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT){
-            player.goRight = false;
-        }
-
-        if(key == KeyEvent.VK_ESCAPE){
-            game.escapePressed = false;
-        }
-
+        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) player.goUp = false;
+        else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) player.goDown = false;
+        else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) player.goLeft = false;
+        else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) player.goRight = false;
+        else if (key == KeyEvent.VK_E) player.wantToDelete = false;
+        else if (key == KeyEvent.VK_ESCAPE) game.togglePause();
     }
 }

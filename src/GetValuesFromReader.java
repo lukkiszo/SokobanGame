@@ -4,7 +4,7 @@ import java.util.Properties;
 import java.io.FileInputStream;
 
 public class GetValuesFromReader {
-    public static Sextet<Integer[], Integer[], Integer[], Integer, Integer, Integer[]> getPropValues(String nr) throws IOException {
+    public static Nonet<Integer[], Integer[], Integer[], Integer, Integer, Integer[], Integer[], Integer, Integer> getPropValues(String nr) throws IOException {
         Properties val = new Properties();
         String fileName = "resources\\" + nr;
 
@@ -18,6 +18,9 @@ public class GetValuesFromReader {
         String obstacles = val.getProperty("obstacles");
         String walls = val.getProperty("walls");
         String correctPlaces = val.getProperty("correctPlaces");
+        String teleportsPlaces = val.getProperty("teleport");
+        String numberOfWallsX_str = val.getProperty("wallsX");
+        String numberOfWallsY_str = val.getProperty("wallsY");
 
         String[] arr1 = obstacles.split(";");
         Integer[] int_obstacles = new Integer[arr1.length * 2];
@@ -49,9 +52,18 @@ public class GetValuesFromReader {
             int_correctPlacesPosition[(i*2)+1] = Integer.parseInt(arr7[1]);
         }
 
+        String[] arr8 = teleportsPlaces.split(";");
+        Integer[] int_teleports = new Integer[arr8.length * 2];
+        for (int i = 0 ; i < arr8.length ; i++) {
+            String[] arr9 = arr8[i].split(",");
+            int_teleports[i*2] = Integer.parseInt(arr9[0]);
+            int_teleports[(i*2)+1] = Integer.parseInt(arr9[1]);
+        }
+
         int levelNumber = Integer.parseInt(levelNumber_str);
         int numberOfObstacles = Integer.parseInt(numberOfObstacles_str);
-
-        return new Sextet<>(plPos, int_walls, int_obstacles, levelNumber, numberOfObstacles, int_correctPlacesPosition);
+        int int_wallsX = Integer.parseInt(numberOfWallsX_str);
+        int int_wallsY = Integer.parseInt(numberOfWallsY_str);
+        return new Nonet<>(plPos, int_walls, int_obstacles, levelNumber, numberOfObstacles, int_correctPlacesPosition, int_teleports, int_wallsX, int_wallsY);
     }
 }
