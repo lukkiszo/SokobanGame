@@ -21,7 +21,7 @@ public class Walls extends JComponent{
 
     public int prefWidth = 50;
     public int prefHeight = 50;
-    private BufferedImage image;
+    private final BufferedImage image;
 
     /**
      * Konstruktor

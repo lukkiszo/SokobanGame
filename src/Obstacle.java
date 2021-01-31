@@ -9,7 +9,6 @@ import java.io.IOException;
  * Klasa przeszkod
  */
 public class Obstacle extends JComponent {
-    private Level lev;
 
     Reader reader = new Reader();
     public boolean isOnCorrectPlace = false;
@@ -32,8 +31,8 @@ public class Obstacle extends JComponent {
     public boolean upWall = false;
     public boolean downWall = false;
 
-    private BufferedImage image;
-    private BufferedImage image1;
+    private final BufferedImage image;
+    private final BufferedImage image1;
 
     /**
      * Konstruktor
@@ -44,11 +43,11 @@ public class Obstacle extends JComponent {
     public Obstacle(int levelNumber, int index) throws IOException {
         width = prefWidth;
         height = prefHeight;
-        lev = Reader.makeLevel(levelNumber);
+        Level lev = Reader.makeLevel(levelNumber);
         xpos = lev.obstaclesPosition.elementAt(index).a;
         ypos = lev.obstaclesPosition.elementAt(index).b;
 
-        prefWidth = Reader.prefWidth/lev.numberOfWallsX;
+        prefWidth = Reader.prefWidth/ lev.numberOfWallsX;
         prefHeight = Reader.prefHeight/(lev.numberOfWallsY+2);
         File imageFile = new File("resources/box.png");
         image = ImageIO.read(imageFile);

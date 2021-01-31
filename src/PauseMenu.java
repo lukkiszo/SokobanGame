@@ -10,10 +10,12 @@ import java.io.IOException;
 public class PauseMenu extends JComponent {
     public int prefWidth;
     public int prefHeight;
-    private JButton continueButton, restartButton, mainMenuButton;
-    private JLabel pauseLabel;
-    private int levelNumber;
-    private String nickname;
+    private final JButton continueButton;
+    private final JButton restartButton;
+    private final JButton mainMenuButton;
+    private final JLabel pauseLabel;
+    private final int levelNumber;
+    private final String nickname;
     private JButton[] pause;
     private final Game game;
 

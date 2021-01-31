@@ -7,7 +7,6 @@ import java.util.Vector;
  * Klasa odpowiadajaca za odczyt i zapis najlepszych wynikow
  */
 public class HighscoresParser {
-    private InputStream file;
     Properties val = new Properties();
 
     Vector<HighScore> highscores = new Vector<>();
@@ -18,7 +17,7 @@ public class HighscoresParser {
      * @throws IOException
      */
     HighscoresParser() throws IOException {
-        file = new FileInputStream("resources\\highscores.txt");
+        InputStream file = new FileInputStream("resources\\highscores.txt");
         val.load(file);
     }
 
@@ -75,9 +74,7 @@ public class HighscoresParser {
      * @throws IOException
      */
     void read() throws IOException {
-        BufferedReader file = null;
-        try {
-            file = new BufferedReader(new FileReader("resources\\highscores.txt"));
+        try (BufferedReader file = new BufferedReader(new FileReader("resources\\highscores.txt"))) {
             String l = file.readLine();
             highscores.clear();
             while (l != null) {
@@ -87,10 +84,6 @@ public class HighscoresParser {
                 l = file.readLine();
             }
             sort(highscores);
-        } finally {
-            if (file != null) {
-                file.close();
-            }
         }
     }
 }

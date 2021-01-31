@@ -6,12 +6,7 @@ import java.io.IOException;
  * Klasa obslugujaca okno z wyborem nazwy gracza
  */
 public class NickPicker extends JFrame{
-    private JTextField nick;
-    private JLabel label;
-    private JLabel label2;
-    private JPanel pan;
-    private JButton back;
-    private JButton scButton;
+    private final JTextField nick;
     int levelNumber = 1;
 
     public String nickname;
@@ -34,10 +29,10 @@ public class NickPicker extends JFrame{
         setLayout(new BorderLayout());
         setSize(prefWidth, prefHeight);
         setLocationRelativeTo(null);
-        label = new JLabel("Nick: ");
-        label2 = new JLabel("Choose your nickname");
-        pan = new JPanel();
-        back = new JButton("< Back");
+        JLabel label = new JLabel("Nick: ");
+        JLabel label2 = new JLabel("Choose your nickname");
+        JPanel pan = new JPanel();
+        JButton back = new JButton("< Back");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         pan.setLayout(new FlowLayout());
 
@@ -63,7 +58,7 @@ public class NickPicker extends JFrame{
         pan.add(nick);
         pan.setBackground(Color.darkGray);
 
-        scButton = new JButton("Confirm >");
+        JButton scButton = new JButton("Confirm >");
         scButton.setFont(new Font("Consolas", Font.PLAIN, 18));
         scButton.setBackground(Color.darkGray);
         scButton.setBorderPainted(false);

@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
  * Klasa obslugujaca zdarzenia nacisniecia przyciskow na klawiaturze
  */
 public class Keys extends KeyAdapter {
-    private Player player;
-    private Game game;
+    private final Player player;
+    private final Game game;
 
     /**
      * Konstruktor

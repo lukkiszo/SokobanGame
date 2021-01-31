@@ -9,12 +9,12 @@ import java.util.ArrayList;
 public class Game extends JComponent implements Runnable {
 
     public int levelNumber;
-    private Player player;
-    private ArrayList<Obstacle> obstacle;
-    private Walls[] walls;
-    private CorrectPlaces[] correctPlace;
-    private Teleport[] teleports;
-    private Level lev;
+    private final Player player;
+    private final ArrayList<Obstacle> obstacle;
+    private final Walls[] walls;
+    private final CorrectPlaces[] correctPlace;
+    private final Teleport[] teleports;
+    private final Level lev;
 
     Thread thread;
 
@@ -26,14 +26,13 @@ public class Game extends JComponent implements Runnable {
 
     public double score;
     private int numberOfMoves = 0;
-    private int numberOfLevels;
-    private long allTime;
+    private final int numberOfLevels;
     private long startTime;
     private long stopTime;
     private int numberOfBackMoves;
 
-    private ArrayList<Pair<Integer, Integer>> playerMoves;
-    private ArrayList<Triplet<Integer, Integer, Integer>> obstacleMoves;
+    private final ArrayList<Pair<Integer, Integer>> playerMoves;
+    private final ArrayList<Triplet<Integer, Integer, Integer>> obstacleMoves;
 
     String nickname;
 
@@ -43,8 +42,8 @@ public class Game extends JComponent implements Runnable {
     private int numberOfDeletes;
 
     private boolean running = false;
-    private MainWindow mainWindow;
-    private PauseMenu pauseMenu;
+    private final MainWindow mainWindow;
+    private final PauseMenu pauseMenu;
 
     /**
      * Konstruktor
@@ -108,32 +107,30 @@ public class Game extends JComponent implements Runnable {
      * Metoda obslugujaca kolizje przeszkod ze scianami
      */
     private void collisionObstacleWall(){
-        for(int i = 0; i<obstacle.size(); i++)
-        {
-            obstacle.get(i).rightWall = false;
-            obstacle.get(i).leftWall = false;
-            obstacle.get(i).upWall = false;
-            obstacle.get(i).downWall = false;
+        for (Obstacle item : obstacle) {
+            item.rightWall = false;
+            item.leftWall = false;
+            item.upWall = false;
+            item.downWall = false;
         }
 
         for (int i = 0; i<lev.wallsPosition.size(); i++) {
-            for (int j = 0; j<obstacle.size(); j++){
-                    if (Math.abs(obstacle.get(j).xpos + 1 - walls[i].xpos) < 0.01 && Math.abs(obstacle.get(j).ypos - walls[i].ypos) < 0.01) {
-                        obstacle.get(j).rightWall = true;
-                    }
+            for (Obstacle value : obstacle) {
+                if (Math.abs(value.xpos + 1 - walls[i].xpos) < 0.01 && Math.abs(value.ypos - walls[i].ypos) < 0.01) {
+                    value.rightWall = true;
+                }
 
-                    if (Math.abs(obstacle.get(j).ypos + 1 - walls[i].ypos) < 0.01 && Math.abs(obstacle.get(j).xpos - walls[i].xpos) < 0.01) {
-                        obstacle.get(j).downWall = true;
-                    }
+                if (Math.abs(value.ypos + 1 - walls[i].ypos) < 0.01 && Math.abs(value.xpos - walls[i].xpos) < 0.01) {
+                    value.downWall = true;
+                }
 
+                if (Math.abs(value.ypos - 1 - walls[i].ypos) < 0.01 && Math.abs(value.xpos - walls[i].xpos) < 0.01) {
+                    value.upWall = true;
+                }
 
-                    if (Math.abs(obstacle.get(j).ypos - 1 - walls[i].ypos) < 0.01 && Math.abs(obstacle.get(j).xpos - walls[i].xpos) < 0.01) {
-                        obstacle.get(j).upWall = true;
-                    }
-
-                    if (Math.abs(obstacle.get(j).xpos - 1 - walls[i].xpos) < 0.01 && Math.abs(obstacle.get(j).ypos - walls[i].ypos) < 0.01) {
-                        obstacle.get(j).leftWall = true;
-                    }
+                if (Math.abs(value.xpos - 1 - walls[i].xpos) < 0.01 && Math.abs(value.ypos - walls[i].ypos) < 0.01) {
+                    value.leftWall = true;
+                }
             }
         }
     }
@@ -220,23 +217,23 @@ public class Game extends JComponent implements Runnable {
             obstacle.get(i).downCollision = false;
             obstacle.get(i).leftCollision = false;
             obstacle.get(i).upCollision = false;
-            for (int j = 0; j<obstacle.size(); j++) {
-                if (Math.abs(obstacle.get(i).xpos + 1 - obstacle.get(j).xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - obstacle.get(j).ypos) < 0.01) {
+            for (Obstacle value : obstacle) {
+                if (Math.abs(obstacle.get(i).xpos + 1 - value.xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - value.ypos) < 0.01) {
                     obstacle.get(i).rightCollision = true;
                     break;
                 }
 
-                if (Math.abs(obstacle.get(i).xpos - obstacle.get(j).xpos) < 0.01 && Math.abs(obstacle.get(i).ypos + 1 - obstacle.get(j).ypos) < 0.01) {
+                if (Math.abs(obstacle.get(i).xpos - value.xpos) < 0.01 && Math.abs(obstacle.get(i).ypos + 1 - value.ypos) < 0.01) {
                     obstacle.get(i).downCollision = true;
                     break;
                 }
 
-                if (Math.abs(obstacle.get(i).xpos - 1 - obstacle.get(j).xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - obstacle.get(j).ypos) < 0.01) {
+                if (Math.abs(obstacle.get(i).xpos - 1 - value.xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - value.ypos) < 0.01) {
                     obstacle.get(i).leftCollision = true;
                     break;
                 }
 
-                if (Math.abs(obstacle.get(i).xpos - obstacle.get(j).xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - 1 - obstacle.get(j).ypos) < 0.01) {
+                if (Math.abs(obstacle.get(i).xpos - value.xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - 1 - value.ypos) < 0.01) {
                     obstacle.get(i).upCollision = true;
                     break;
                 }
@@ -251,14 +248,11 @@ public class Game extends JComponent implements Runnable {
     public int isOnCorrectPlace()
     {
         int k = 0;
-        for(int i = 0; i<obstacle.size(); i++)
-        {
-            obstacle.get(i).isOnCorrectPlace = false;
-            for(int j = 0; j<correctPlace.length; j++)
-            {
-                if(Math.abs(obstacle.get(i).xpos - correctPlace[j].xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - correctPlace[j].ypos) < 0.01)
-                {
-                    obstacle.get(i).isOnCorrectPlace = true;
+        for (Obstacle value : obstacle) {
+            value.isOnCorrectPlace = false;
+            for (CorrectPlaces correctPlaces : correctPlace) {
+                if (Math.abs(value.xpos - correctPlaces.xpos) < 0.01 && Math.abs(value.ypos - correctPlaces.ypos) < 0.01) {
+                    value.isOnCorrectPlace = true;
                     k++;
                 }
             }
@@ -347,24 +341,24 @@ public class Game extends JComponent implements Runnable {
      * Metoda obslugujaca ruch gracza
      */
     public void playerMove() throws InterruptedException {
-        for(int i = 0; i<obstacle.size(); i++) {
-            if (player.goRight && !player.rightWall && !player.rightCollision && !obstacle.get(i).rightWall) {
-                move(0,1, false, obstacle.get(0));
+        for (Obstacle value : obstacle) {
+            if (player.goRight && !player.rightWall && !player.rightCollision && !value.rightWall) {
+                move(0, 1, false, obstacle.get(0));
                 playerMoves.add(0, new Pair<>(1, 0));
                 obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
-            } else if (player.goLeft && !player.leftWall && !player.leftCollision && !obstacle.get(i).leftWall) {
-                move(0,-1, false, obstacle.get(0));
+            } else if (player.goLeft && !player.leftWall && !player.leftCollision && !value.leftWall) {
+                move(0, -1, false, obstacle.get(0));
                 playerMoves.add(0, new Pair<>(-1, 0));
                 obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
-            } else if (player.goUp && !player.upWall && !player.upCollision && !obstacle.get(i).upWall) {
-                move(1,-1, false, obstacle.get(0));
+            } else if (player.goUp && !player.upWall && !player.upCollision && !value.upWall) {
+                move(1, -1, false, obstacle.get(0));
                 playerMoves.add(0, new Pair<>(0, -1));
                 obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
-            } else if (player.goDown && !player.downWall && !player.downCollision && !obstacle.get(i).downWall) {
-                move(1,1, false, obstacle.get(0));
+            } else if (player.goDown && !player.downWall && !player.downCollision && !value.downWall) {
+                move(1, 1, false, obstacle.get(0));
                 playerMoves.add(0, new Pair<>(0, 1));
                 obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
@@ -378,8 +372,8 @@ public class Game extends JComponent implements Runnable {
     public void isOnTeleport()
     {
         teleports[1].isBlocked = false;
-        for(int i = 0; i<obstacle.size(); i++) {
-            if (Math.abs(obstacle.get(i).xpos - teleports[1].xpos) < 0.01 && Math.abs(obstacle.get(i).ypos - teleports[1].ypos) < 0.01) {
+        for (Obstacle value : obstacle) {
+            if (Math.abs(value.xpos - teleports[1].xpos) < 0.01 && Math.abs(value.ypos - teleports[1].ypos) < 0.01) {
                 teleports[1].isBlocked = true;
                 break;
             }
@@ -454,22 +448,13 @@ public class Game extends JComponent implements Runnable {
      * Metoda aktualizujaca wynik
      */
     private void updateScore(){
-        int wsp_cofniec;
-        switch (numberOfBackMoves) {
-            case 2:
-            case 3:
-                wsp_cofniec = 5000;
-                break;
-            case 4:
-            case 5:
-                wsp_cofniec = 15000;
-                break;
-            default:
-                wsp_cofniec = 25000;
-                break;
-        }
-        allTime = stopTime - startTime;
-        score = (1/((double)numberOfMoves+1)) * 80000 * (levelNumber / (double)numberOfLevels) + (1 +(1/(double)(allTime/100))) * 50000 + (double) lev.numberOfObstacles * 10000 - (double) ((numberOfBackMoves - 1) * wsp_cofniec) - 15000 * numberOfDeletes;
+        int wsp_cofniec = switch (numberOfBackMoves) {
+            case 2, 3 -> 5000;
+            case 4, 5 -> 15000;
+            default -> 25000;
+        };
+        long allTime = stopTime - startTime;
+        score = (1/((double)numberOfMoves+1)) * 80000 * (levelNumber / (double)numberOfLevels) + (1 +(1/(double)(allTime /100))) * 50000 + (double) lev.numberOfObstacles * 10000 - (double) ((numberOfBackMoves - 1) * wsp_cofniec) - 15000 * numberOfDeletes;
         if(score < 0) score = 0;
     }
 
@@ -526,9 +511,9 @@ public class Game extends JComponent implements Runnable {
         player.height = (int) ((double) player.prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
         player.width = (int) ((double) player.prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
 
-        for (int i = 0; i < obstacle.size(); i++){
-            obstacle.get(i).height = (int) ((double) obstacle.get(i).prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
-            obstacle.get(i).width = (int) ((double) obstacle.get(i).prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
+        for (Obstacle value : obstacle) {
+            value.height = (int) ((double) value.prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
+            value.width = (int) ((double) value.prefWidth * ((double) mainWindow.currentWidth / (double) mainWindow.prefWidth));
         }
 
         for (int i = 0; i < lev.correctPlacesPosition.size(); i++){
@@ -566,9 +551,8 @@ public class Game extends JComponent implements Runnable {
             teleports[i].paintComponent(g);
         }
 
-        for(int i = 0; i < obstacle.size(); i++)
-        {
-            obstacle.get(i).paintComponent(g);
+        for (Obstacle value : obstacle) {
+            value.paintComponent(g);
         }
         player.paintComponent(g);
 

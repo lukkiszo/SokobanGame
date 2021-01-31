@@ -19,8 +19,8 @@ public class Teleport extends JComponent {
     public boolean isBlocked = false;
     public int prefWidth = 50;
     public int prefHeight = 50;
-    private BufferedImage image;
-    private BufferedImage image1;
+    private final BufferedImage image;
+    private final BufferedImage image1;
 
     /**
      * Konstruktor

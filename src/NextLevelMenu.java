@@ -8,11 +8,11 @@ import java.io.IOException;
  * Klasa obslugujaca okna pomiedzy poziomami
  */
 public class NextLevelMenu extends JFrame {
-    private JButton nextLevel;
-    private JButton exit;
-    private JLabel title;
-    private JLabel scoreLabel;
-    private JPanel pan;
+    private final JButton nextLevel;
+    private final JButton exit;
+    private final JLabel title;
+    private final JLabel scoreLabel;
+    private final JPanel pan;
 
     String nickname;
 
@@ -22,7 +22,7 @@ public class NextLevelMenu extends JFrame {
     public int prefWidth = 800;
     public int prefHeight = 600;
 
-    private int level;
+    private final int level;
     Dimension minSize = new Dimension(1, 1);
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);

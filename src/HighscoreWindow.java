@@ -8,12 +8,12 @@ import java.io.IOException;
  * Klasa odpowiadajaca za wyswietlanie okna najlepszych wynikow
  */
 public class HighscoreWindow extends JFrame {
-    private JButton back;
-    private JLabel label2;
+    private final JButton back;
+    private final JLabel label2;
 
     HighscoresParser parser = new HighscoresParser();
 
-    private JPanel pan;
+    private final JPanel pan;
 
     public int currentWidth;
     public int currentHeight;

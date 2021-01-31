@@ -9,12 +9,12 @@ import java.io.IOException;
  */
 public class EndGameMenu extends JFrame {
 
-    private JButton highscores;
-    private JButton exit;
-    private JLabel title;
-    private JLabel scoreLabel;
-    private JLabel totalScoreLabel;
-    private JPanel pan;
+    private final JButton highscores;
+    private final JButton exit;
+    private final JLabel title;
+    private final JLabel scoreLabel;
+    private final JLabel totalScoreLabel;
+    private final JPanel pan;
 
     HighscoresParser parser = new HighscoresParser();
 

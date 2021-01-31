@@ -1,9 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
@@ -12,9 +8,11 @@ import java.io.IOException;
  * Klasa obslugujaca menu glowne
  */
 public class MenuWindow extends JFrame{
-    private JButton startButton, scoresButton, exitButton;
-    private JPanel pan;
-    private JLabel title;
+    private final JButton startButton;
+    private final JButton scoresButton;
+    private final JButton exitButton;
+    private final JPanel pan;
+    private final JLabel title;
     public String nickname;
     int levelNumber = 1;
 
