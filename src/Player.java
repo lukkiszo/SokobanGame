@@ -69,13 +69,14 @@ public class Player extends JComponent {
 
         for (int i = 0; i<lev.wallsPosition.size(); i++)
         {
-            if(position[0] + 1 == lev.wallsPosition.elementAt(i).a && position[1] + 0.5 == lev.wallsPosition.elementAt(i).b + 0.5) rightWall = true;
 
-            if(position[0] + 0.5 == lev.wallsPosition.elementAt(i).a + 0.5 && position[1] + 1 == lev.wallsPosition.elementAt(i).b) downWall = true;
+            if(Math.abs(position[0] + 1 - lev.wallsPosition.elementAt(i).a) < 0.01 && Math.abs(position[1] - lev.wallsPosition.elementAt(i).b) < 0.01) rightWall = true;
 
-            if(position[0] + 0.5 == lev.wallsPosition.elementAt(i).a + 0.5 && position[1] == lev.wallsPosition.elementAt(i).b + 1) upWall = true;
+            if(Math.abs(position[0] - lev.wallsPosition.elementAt(i).a) < 0.01 && Math.abs(position[1] + 1 - lev.wallsPosition.elementAt(i).b) < 0.01) downWall = true;
 
-            if(position[0] == lev.wallsPosition.elementAt(i).a + 1 && position[1] + 0.5 == lev.wallsPosition.elementAt(i).b + 0.5) leftWall = true;
+            if(Math.abs(position[0] - lev.wallsPosition.elementAt(i).a) < 0.01 && Math.abs(position[1] - lev.wallsPosition.elementAt(i).b - 1) < 0.01) upWall = true;
+
+            if(Math.abs(position[0] - 1 - lev.wallsPosition.elementAt(i).a) < 0.01 && Math.abs(position[1] - lev.wallsPosition.elementAt(i).b) < 0.01) leftWall = true;
         }
     }
 
