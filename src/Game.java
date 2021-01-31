@@ -75,8 +75,6 @@ public class Game extends JComponent implements Runnable {
             playerMoves.add(i, new Pair<>(0,0));
             obstacleMoves.add(i, new Triplet<>(0,0, 0));
         }
-        System.out.println(obstacleMoves.size());
-        System.out.println(playerMoves.size());
 
         obstacle = new ArrayList<>();
         correctPlace = new CorrectPlaces[lev.numberOfObstacles];
