@@ -4,6 +4,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+/**
+ * Klasa odpowiadajaca za wyswietlanie koncowego okna gry
+ */
 public class EndGameMenu extends JFrame {
 
     private JButton highscores;
@@ -27,6 +30,13 @@ public class EndGameMenu extends JFrame {
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
+    /**
+     * Konstruktor
+     * @param nick Nazwa gracza
+     * @param totalScore wynik calkowity zsumowany ze wszystkich poziomow
+     * @param score wynik poziomu
+     * @throws IOException
+     */
     EndGameMenu(String nick, int totalScore, double score) throws IOException {
         super("SOKOBAN");
         getContentPane().setBackground(Color.darkGray);
@@ -95,22 +105,35 @@ public class EndGameMenu extends JFrame {
         });
     }
 
+    /**
+     * Metoda zapisujaca wynik i wracajaca do menu glownego
+     * @param totalScore Wynik ze wszystkich poziomow
+     * @throws IOException
+     */
     public void saveAndMainMenu(int totalScore) throws IOException {
         dispose();
         parser.read();
         parser.addHighscore(new HighScore(nickname, totalScore));
-        parser.zapisPliku();
+        parser.saveHighscores();
         new MenuWindow().setVisible(true);
     }
 
+    /**
+     * Metoda zapisujaca wynik i przechodzaca do okna najlepszych wynikow
+     * @param totalScore Wynik ze wszystkich poziomow
+     * @throws IOException
+     */
     private void saveAndHighscores(int totalScore) throws IOException {
         dispose();
         parser.read();
         parser.addHighscore(new HighScore(nickname, totalScore));
-        parser.zapisPliku();
+        parser.saveHighscores();
         new HighscoreWindow();
     }
 
+    /**
+     * Metoda ustawiajaca i skalujaca elementy okna
+     */
     private void initComponents() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

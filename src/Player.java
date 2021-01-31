@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Klasa postaci
+ */
 public class Player extends JComponent {
     Level lev;
     Reader reader = new Reader();
@@ -26,11 +29,20 @@ public class Player extends JComponent {
     public double width;
     public double height;
 
-    public boolean wantToDelete = false;
+    public boolean wantToDeleteOnLeft = false;
+    public boolean wantToDeleteOnRight = false;
+    public boolean wantToDeleteOnUp = false;
+    public boolean wantToDeleteOnDown = false;
+
 
     public int prefWidth = 50;
     public int prefHeight = 50;
 
+    /**
+     * Konstruktor
+     * @param levelNumber numer poziomu
+     * @throws IOException
+     */
     public Player(int levelNumber) throws IOException {
         width = prefWidth;
         height = prefHeight;
@@ -45,6 +57,9 @@ public class Player extends JComponent {
         image = ImageIO.read(imageFile);
     }
 
+    /**
+     * Metoda obslugujaca kolizje postaci ze scianami
+     */
     public void collisionWithWalls()
     {
         rightWall = false;
@@ -64,7 +79,10 @@ public class Player extends JComponent {
         }
     }
 
-
+    /**
+     * Metoda rysujaca postac
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         g.drawImage(image, (int) (width * (position[0])), (int) (height * (position[1]+1)), (int) width, (int) height, null);

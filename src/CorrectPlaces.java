@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Klasa prawidlowych ustawien przeszkod
+ */
 public class CorrectPlaces extends JPanel{
 
     public Level lev;
@@ -16,6 +19,12 @@ public class CorrectPlaces extends JPanel{
     public int prefWidth = 50;
     public int prefHeight = 50;
 
+    /**
+     * Konstruktor
+     * @param levelNumber Numer aktualnego poziomu
+     * @param index Numer pola w plikach konfiguracyjnych
+     * @throws IOException
+     */
     public CorrectPlaces(int levelNumber, int index) throws IOException {
         width = prefWidth;
         height = prefHeight;
@@ -27,6 +36,10 @@ public class CorrectPlaces extends JPanel{
         number = lev.numberOfObstacles;
     }
 
+    /**
+     * Metoda rysujaca na ekranie prawidlowe pola dla przeszkod
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         g.setColor(new Color(0xE1E95555, true));

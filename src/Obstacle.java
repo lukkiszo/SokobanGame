@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Klasa przeszkod
+ */
 public class Obstacle extends JComponent {
     private Level lev;
 
@@ -32,7 +35,12 @@ public class Obstacle extends JComponent {
     private BufferedImage image;
     private BufferedImage image1;
 
-    //    nowy konstruktor
+    /**
+     * Konstruktor
+     * @param levelNumber numer poziomu
+     * @param index numer przeszkody
+     * @throws IOException
+     */
     public Obstacle(int levelNumber, int index) throws IOException {
         width = prefWidth;
         height = prefHeight;
@@ -48,14 +56,17 @@ public class Obstacle extends JComponent {
         image1 = ImageIO.read(imageFile1);
     }
 
-
+    /**
+     * Metoda rysujaca przeszkody na ekranie
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         setDoubleBuffered(true);
-            if (isOnCorrectPlace) {
-                g.drawImage(image1, (int) (width * (xpos)), (int) (height * (ypos + 1)), (int) width, (int) height, null);
-            } else {
-                g.drawImage(image, (int) (width * (xpos)), (int) (height * (ypos + 1)), (int) width, (int) height, null);
-            }
+        if (isOnCorrectPlace) {
+            g.drawImage(image1, (int) (width * (xpos)), (int) (height * (ypos + 1)), (int) width, (int) height, null);
+        } else {
+            g.drawImage(image, (int) (width * (xpos)), (int) (height * (ypos + 1)), (int) width, (int) height, null);
+        }
     }
 }

@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Klasa obslugujaca okno z wyborem nazwy gracza
+ */
 public class NickPicker extends JFrame{
     private JTextField nick;
     private JLabel label;
@@ -21,6 +24,9 @@ public class NickPicker extends JFrame{
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
+    /**
+     * Konstruktor
+     */
     NickPicker(){
         super("Nickname pick");
         getContentPane().setBackground(Color.darkGray);
@@ -98,12 +104,20 @@ public class NickPicker extends JFrame{
         });
     }
 
+    /**
+     * Metoda obslugujaca powrot do menu
+     */
     public void backAction()
     {
         this.dispose();
         new MenuWindow().setVisible(true);
     }
 
+    /**
+     * Metoda tworzaca nowy poziom
+     * @param levelNr numer poziomu
+     * @throws IOException
+     */
     public void makeLevel(int levelNr) throws IOException {
         dispose();
         MainWindow.totalScore = 0;

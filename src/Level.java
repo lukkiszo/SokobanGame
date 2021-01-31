@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Klasa przechowujaca dane wszystkich elementow danego poziomu
+ */
 public class Level {
     int numberOfObstacles;
     int levelNumber;
@@ -12,6 +15,10 @@ public class Level {
     Vector<Pair<Integer, Integer>> correctPlacesPosition = new Vector<>();
     Vector<Pair<Integer, Integer>> teleportsPosition = new Vector<>();
 
+    /**
+     * Konstruktor
+     * @param nameOfFile nazwa pliku z ktorego maja byc odczytane dane
+     */
     Level(String nameOfFile)
     {
         try

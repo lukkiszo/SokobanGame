@@ -4,6 +4,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+/**
+ * Klasa obslugujaca okno pauzy
+ */
 public class PauseMenu extends JComponent {
     public int prefWidth;
     public int prefHeight;
@@ -19,7 +22,6 @@ public class PauseMenu extends JComponent {
     Dimension minSize = new Dimension(1, 1);
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
-    int aaaa = 0;
 
     /**
      * Konstruktor
@@ -74,17 +76,27 @@ public class PauseMenu extends JComponent {
         this.setVisible(false);
         initComponents();
     }
+
+    /**
+     * Metoda obslugujaca powrot do menu glownego
+     */
     private void goToMainMenu(){
         getParent().getParent().getParent().getParent().setVisible(false);
         new MenuWindow().setVisible(true);
     }
 
+    /**
+     * Metoda obslugujaca uruchomienie poziomu od nowa
+     * @throws IOException
+     */
     private void levelRestart() throws IOException {
         getParent().getParent().getParent().getParent().setVisible(false);
         new NextLevelMenu(levelNumber, nickname, (int) game.score).makeLevel(nickname);
     }
 
-
+    /**
+     * Metoda ustawiajaca i skalujaca menu pauzy
+     */
     private void initComponents() {
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -109,14 +121,14 @@ public class PauseMenu extends JComponent {
         });
     }
 
+    /**
+     * Metoda rysujaca tlo menu pauzy
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println("jes" + aaaa++);
         super.paintComponent(g);
         g.setColor(Color.darkGray);
         g.fillRect(0, 0, currentWidth, currentHeight);
-        continueButton.paintComponents(g);
-        restartButton.paintComponents(g);
-        mainMenuButton.paintComponents(g);
     }
 }

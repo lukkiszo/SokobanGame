@@ -3,6 +3,9 @@ import java.util.Comparator;
 import java.util.Properties;
 import java.util.Vector;
 
+/**
+ * Klasa odpowiadajaca za odczyt i zapis najlepszych wynikow
+ */
 public class HighscoresParser {
     private InputStream file;
     Properties val = new Properties();
@@ -10,14 +13,18 @@ public class HighscoresParser {
     Vector<HighScore> highscores = new Vector<>();
     static HighScoreComparator comparator = new HighScoreComparator();
 
+    /**
+     * Konstruktor
+     * @throws IOException
+     */
     HighscoresParser() throws IOException {
         file = new FileInputStream("resources\\highscores.txt");
         val.load(file);
     }
 
     /**
-     * If given highscore is in the top 5 then it's added and highscores are sorted again
-     * @param highScore a highscore gained on this level
+     * Metoda sprawdzajaca czy podany highscore zawiera sie w top5 i sortujaca wyniki
+     * @param highScore wynik uzyskany w grze
      */
     void addHighscore(HighScore highScore){
         if(highscores.elementAt(0).score > 0) {
@@ -29,18 +36,26 @@ public class HighscoresParser {
     }
 
     /**
-     * Comparator that sorts {@link HighScore} object by their {@link HighScore#score} fields in an ascending order
+     * Komparator sortujacy {@link HighScore} poprzez ich {@link HighScore#score} w kolejnosci rosnacej
      */
     static class HighScoreComparator implements Comparator<HighScore>
     {
         public int compare(HighScore h1, HighScore h2) { return h1.score - h2.score; }
     }
 
+    /**
+     * Metoda sortujaca liste najlepszych wynikow
+     * @param highscores Zbior najlepszych wynikow
+     */
     void sort(Vector<HighScore> highscores){
         highscores.sort(comparator);
     }
 
-    public void zapisPliku() throws IOException {
+    /**
+     * Metoda zapisujaca liste najlepszych wynikow do pliku
+     * @throws IOException
+     */
+    public void saveHighscores() throws IOException {
         FileWriter plikWy = null;
         try {
             plikWy = new FileWriter("resources\\highscores.txt");
@@ -55,6 +70,10 @@ public class HighscoresParser {
         }
     }
 
+    /**
+     * Metoda odczytujaca najlepsze wyniki z pliku
+     * @throws IOException
+     */
     void read() throws IOException {
         BufferedReader file = null;
         try {

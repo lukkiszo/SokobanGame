@@ -8,6 +8,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+/**
+ * Klasa obslugujaca menu glowne
+ */
 public class MenuWindow extends JFrame{
     private JButton startButton, scoresButton, exitButton;
     private JPanel pan;
@@ -25,6 +28,9 @@ public class MenuWindow extends JFrame{
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
+    /**
+     * Konstruktor
+     */
     MenuWindow(){
         super("SOKOBAN");
         getContentPane().setBackground(Color.darkGray);
@@ -83,17 +89,27 @@ public class MenuWindow extends JFrame{
 
     }
 
+    /**
+     * Metoda tworzaca okno z najlepszymi wynikami
+     * @throws IOException
+     */
     void showHighscores() throws IOException {
         dispose();
         new HighscoreWindow();
     }
 
+    /**
+     * Metoda tworzaca okno z wyborem nazwy gracza
+     */
     void nickPicker()
     {
         dispose();
         new NickPicker();
     }
 
+    /**
+     * Metoda ustawiajaca i skalujaca elementy okna
+     */
     private void initComponents() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

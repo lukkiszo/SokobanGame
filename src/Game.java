@@ -3,6 +3,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Klasa odpowiadajaca za tworzenie odpowiedniego poziomu
+ */
 public class Game extends JComponent implements Runnable {
 
     public int levelNumber;
@@ -29,6 +32,9 @@ public class Game extends JComponent implements Runnable {
     private long stopTime;
     private int numberOfBackMoves;
 
+    private ArrayList<Pair<Integer, Integer>> playerMoves;
+    private ArrayList<Triplet<Integer, Integer, Integer>> obstacleMoves;
+
     String nickname;
 
     long currentTime;
@@ -40,6 +46,12 @@ public class Game extends JComponent implements Runnable {
     private MainWindow mainWindow;
     private PauseMenu pauseMenu;
 
+    /**
+     * Konstruktor
+     * @param levelNr numer tworzonego poziomu
+     * @param nick nazwa gracza
+     * @throws IOException
+     */
     public Game(int levelNr, String nick) throws IOException {
         nickname = nick;
         levelNumber = levelNr;
@@ -53,8 +65,18 @@ public class Game extends JComponent implements Runnable {
         }
         player = new Player(levelNumber);
         numberOfLevels = Reader.getNumberOfLevels();
-//        numberOfBackMoves = 0;
+        numberOfBackMoves = 0;
         numberOfDeletes = 0;
+
+        playerMoves = new ArrayList<>(5);
+        obstacleMoves = new ArrayList<>(5);
+        for (int i = 0; i<5; i++)
+        {
+            playerMoves.add(i, new Pair<>(0,0));
+            obstacleMoves.add(i, new Triplet<>(0,0, 0));
+        }
+        System.out.println(obstacleMoves.size());
+        System.out.println(playerMoves.size());
 
         obstacle = new ArrayList<>();
         correctPlace = new CorrectPlaces[lev.numberOfObstacles];
@@ -75,14 +97,18 @@ public class Game extends JComponent implements Runnable {
         mainWindow.add(pauseMenu);
     }
 
+    /**
+     * Metoda startujaca watek
+     */
     public void start() {
         thread = new Thread(this);
         thread.start();
         running = true;
-        System.out.println("START");
     }
 
-    //     obstacle - wall
+    /**
+     * Metoda obslugujaca kolizje przeszkod ze scianami
+     */
     private void collisionObstacleWall(){
         for(int i = 0; i<obstacle.size(); i++)
         {
@@ -113,11 +139,17 @@ public class Game extends JComponent implements Runnable {
         }
     }
 
+    /**
+     * Metoda zwracajaca obiekt klasy Player
+     * @return
+     */
     public Player getPlayer() {
         return player;
     }
 
-    //     player - obstacle
+    /**
+     * Metoda obslugujaca kolizje gracza z przeszkodami
+     */
     private void collisionWithObstacles() {
         player.rightCollision = false;
         player.leftCollision = false;
@@ -126,60 +158,78 @@ public class Game extends JComponent implements Runnable {
 
         for (int i = 0; i < obstacle.size(); i++) {
                 if (player.position[0] + 1 == obstacle.get(i).xpos && player.position[1] + 0.5 == obstacle.get(i).ypos + 0.5) {
-                    if(player.wantToDelete && numberOfDeletes < 2) {
+                    if(player.wantToDeleteOnRight && numberOfDeletes < 2) {
                         obstacle.remove(i);
                         numberOfDeletes += 1;
                     }
                     player.rightCollision = true;
                     if (player.goRight && !obstacle.get(i).rightCollision && !obstacle.get(i).rightWall) {
+                        playerMoves.remove(4);
+                        obstacleMoves.remove(4);
                         obstacle.get(i).xpos += 1;
                         player.position[0] += 1;
                         numberOfMoves += 1;
+                        playerMoves.add(0, new Pair<>(1, 0));
+                        obstacleMoves.add(0, new Triplet<>(1, 0, i));
                     }
                 }
 
                 if (player.position[0] + 0.5 == obstacle.get(i).xpos + 0.5 && player.position[1] + 1 == obstacle.get(i).ypos) {
-                    if(player.wantToDelete && numberOfDeletes < 2) {
+                    if(player.wantToDeleteOnDown && numberOfDeletes < 2) {
                         obstacle.remove(i);
                         numberOfDeletes += 1;
                     }
                     player.downCollision = true;
                     if (player.goDown && !obstacle.get(i).downCollision && !obstacle.get(i).downWall) {
+                        playerMoves.remove(4);
+                        obstacleMoves.remove(4);
                         obstacle.get(i).ypos += 1;
                         player.position[1] += 1;
                         numberOfMoves += 1;
+                        playerMoves.add(0, new Pair<>(0, 1));
+                        obstacleMoves.add(0, new Triplet<>(0, 1, i));
                     }
                 }
 
                 if (player.position[0] + 0.5 == obstacle.get(i).xpos + 0.5 && player.position[1] == obstacle.get(i).ypos + 1) {
-                    if(player.wantToDelete && numberOfDeletes < 2) {
+                    if(player.wantToDeleteOnUp && numberOfDeletes < 2) {
                         obstacle.remove(i);
                         numberOfDeletes += 1;
                     }
                     player.upCollision = true;
                     if (player.goUp && !obstacle.get(i).upCollision && !obstacle.get(i).upWall) {
+                        playerMoves.remove(4);
+                        obstacleMoves.remove(4);
                         obstacle.get(i).ypos -= 1;
                         player.position[1] -= 1;
                         numberOfMoves += 1;
+                        playerMoves.add(0, new Pair<>(0, -1));
+                        obstacleMoves.add(0, new Triplet<>(0, -1, i));
                     }
                 }
 
                 if (player.position[0] == obstacle.get(i).xpos + 1 && player.position[1] + 0.5 == obstacle.get(i).ypos + 0.5) {
-                    if(player.wantToDelete && numberOfDeletes < 2) {
+                    if(player.wantToDeleteOnLeft && numberOfDeletes < 2) {
                         obstacle.remove(i);
                         numberOfDeletes += 1;
                     }
                     player.leftCollision = true;
                     if (player.goLeft && !obstacle.get(i).leftCollision && !obstacle.get(i).leftWall) {
+                        playerMoves.remove(4);
+                        obstacleMoves.remove(4);
                         obstacle.get(i).xpos -= 1;
                         player.position[0] -= 1;
                         numberOfMoves += 1;
+                        playerMoves.add(0, new Pair<>(-1, 0));
+                        obstacleMoves.add(0, new Triplet<>(-1, 0, i));
                     }
                 }
         }
     }
 
-    //    obstacle - obstacle
+    /**
+     * Metoda obslugujaca kolizje przeszkod miedzy soba
+     */
     public void collisionWithOtherObstacle(){
 
         for(int i = 0; i<obstacle.size(); i++){
@@ -211,6 +261,10 @@ public class Game extends JComponent implements Runnable {
         }
     }
 
+    /**
+     * Metoda sprawdzajaca czy przeszkody sa na ustalonych miejscach do zakonczenia gry
+     * @return liczba przeszkod ustawionych poprawnie
+     */
     public int isOnCorrectPlace()
     {
         int k = 0;
@@ -229,6 +283,10 @@ public class Game extends JComponent implements Runnable {
         return k;
     }
 
+    /**
+     * Metoda sprawdzajaca czy gra zostala ukonczona
+     * @return
+     */
     public boolean isVictory()
     {
         boolean victory = false;
@@ -239,28 +297,50 @@ public class Game extends JComponent implements Runnable {
         return victory;
     }
 
+    /**
+     * Metoda obslugujaca ruch gracza
+     */
     public void playerMove() {
         for(int i = 0; i<obstacle.size(); i++) {
             if (player.goRight && !player.rightWall && !player.rightCollision && !obstacle.get(i).rightWall) {
+                playerMoves.remove(4);
+                obstacleMoves.remove(4);
                 player.position[0] += 1;
                 numberOfMoves += 1;
+                playerMoves.add(0, new Pair<>(1, 0));
+                obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
             } else if (player.goLeft && !player.leftWall && !player.leftCollision && !obstacle.get(i).leftWall) {
+                playerMoves.remove(4);
+                obstacleMoves.remove(4);
                 player.position[0] -= 1;
                 numberOfMoves += 1;
+                playerMoves.add(0, new Pair<>(-1, 0));
+                obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
             } else if (player.goUp && !player.upWall && !player.upCollision && !obstacle.get(i).upWall) {
+                playerMoves.remove(4);
+                obstacleMoves.remove(4);
                 player.position[1] -= 1;
                 numberOfMoves += 1;
+                playerMoves.add(0, new Pair<>(0, -1));
+                obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
             } else if (player.goDown && !player.downWall && !player.downCollision && !obstacle.get(i).downWall) {
+                playerMoves.remove(4);
+                obstacleMoves.remove(4);
                 player.position[1] += 1;
                 numberOfMoves += 1;
+                playerMoves.add(0, new Pair<>(0, 1));
+                obstacleMoves.add(0, new Triplet<>(0, 0, 0));
                 break;
             }
         }
     }
 
+    /**
+     * Metoda sprawdzajaca czy przeszkoda nie stoi na teleporcie
+     */
     public void isOnTeleport()
     {
         teleports[1].isBlocked = false;
@@ -277,12 +357,35 @@ public class Game extends JComponent implements Runnable {
         }
     }
 
+    /**
+     * Metoda umozliwiajaca cofanie ruchow gracza
+     */
+    public void backMoves(){
+        if(playerMoves.size() > 0)
+        {
+            player.position[0] -= playerMoves.get(0).a;
+            player.position[1] -= playerMoves.get(0).b;
+            playerMoves.remove(0);
+            playerMoves.add(4, new Pair<>(0,0));
+            obstacle.get(obstacleMoves.get(0).c).xpos -= obstacleMoves.get(0).a;
+            obstacle.get(obstacleMoves.get(0).c).ypos -= obstacleMoves.get(0).b;
+            obstacleMoves.remove(0);
+            obstacleMoves.add(4, new Triplet<>(0,0,0));
+            numberOfBackMoves += 1;
+        }
+    }
+
+    /**
+     * Metoda tworzaca nastepny poziom
+     * @throws IOException
+     */
     public void nextLevel() throws IOException {
         numberOfMoves = 0;
         levelNumber += 1;
         nextLevelMenuShown = true;
         mainWindow.makeLevel(levelNumber);
     }
+
 
     @Override
     public void run() {
@@ -300,6 +403,9 @@ public class Game extends JComponent implements Runnable {
         stop();
     }
 
+    /**
+     * Metoda zatrzymujaca watek
+     */
     public synchronized void stop() {
         try {
             thread.join();
@@ -309,6 +415,9 @@ public class Game extends JComponent implements Runnable {
         }
     }
 
+    /**
+     * Metoda aktualizujaca wynik
+     */
     private void updateScore(){
         int wsp_cofniec;
         switch (numberOfBackMoves) {
@@ -325,9 +434,13 @@ public class Game extends JComponent implements Runnable {
                 break;
         }
         allTime = stopTime - startTime;
-        score = (1/((double)numberOfMoves+1)) * 80000 * (levelNumber / (double)numberOfLevels) + (1 +(1/(double)(allTime/1000)) * 50000 + (double) lev.numberOfObstacles * 10000 - (double) (numberOfBackMoves - 1) * wsp_cofniec) - 15000 * numberOfDeletes;
+        score = (1/((double)numberOfMoves+1)) * 80000 * (levelNumber / (double)numberOfLevels) + (1 +(1/(double)(allTime/100))) * 50000 + (double) lev.numberOfObstacles * 10000 - (double) ((numberOfBackMoves - 1) * wsp_cofniec) - 15000 * numberOfDeletes;
+        if(score < 0) score = 0;
     }
 
+    /**
+     * Metoda zmieniajaca status menu pauzy
+     */
     public void togglePause() {
         gameState = gameState == GameState.running ? GameState.pause : GameState.running;
         if (gameState == GameState.pause){
@@ -343,6 +456,10 @@ public class Game extends JComponent implements Runnable {
         }
     }
 
+    /**
+     * Glowna metoda, aktualizujaca stan gry
+     * @throws IOException
+     */
     public void update() throws IOException {
         currentTime = System.currentTimeMillis();
 
@@ -366,6 +483,9 @@ public class Game extends JComponent implements Runnable {
         }
     }
 
+    /**
+     * Metoda skalujaca wszystkie elementy okna
+     */
     public void resizeAll() {
         setSize(mainWindow.currentWidth, mainWindow.currentHeight);
         player.height = (int) ((double) player.prefHeight * ((double) mainWindow.currentHeight / (double) mainWindow.prefHeight));
@@ -393,6 +513,10 @@ public class Game extends JComponent implements Runnable {
 
     }
 
+    /**
+     * Metoda rysujaca wszystkie elementy na oknie
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         g.setColor(new Color(0xDFF6E9A2, true));

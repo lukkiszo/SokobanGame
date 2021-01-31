@@ -4,6 +4,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+/**
+ * Klasa odpowiadajaca za wyswietlanie okna najlepszych wynikow
+ */
 public class HighscoreWindow extends JFrame {
     private JButton back;
     private JLabel label2;
@@ -22,6 +25,10 @@ public class HighscoreWindow extends JFrame {
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
+    /**
+     * Konstruktor
+     * @throws IOException
+     */
     HighscoreWindow() throws IOException {
         super("Highscores");
         getContentPane().setBackground(Color.darkGray);
@@ -64,12 +71,18 @@ public class HighscoreWindow extends JFrame {
 
     }
 
+    /**
+     * Metoda wracajaca do okna {@link MenuWindow}
+     */
     void backAction()
     {
         this.dispose();
         new MenuWindow().setVisible(true);
     }
 
+    /**
+     * Metoda ustawiajaca i skalujaca elementy okna
+     */
     private void initComponents() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

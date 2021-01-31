@@ -4,6 +4,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+/**
+ * Klasa glownego okna gry
+ */
 public class MainWindow extends JFrame {
     public int currentWidth;
     public int currentHeight;
@@ -16,6 +19,10 @@ public class MainWindow extends JFrame {
     public static int totalScore = 0;
     public Keys keys;
 
+    /**
+     * Konstruktor
+     * @param game aktualna gra
+     */
     MainWindow(Game game){
         keys = new Keys(game.getPlayer(), game);
         this.game = game;
@@ -35,6 +42,10 @@ public class MainWindow extends JFrame {
     }
 
 
+    /**
+     * Metoda wywolujaca skalowanie elementow gry
+     * @param game aktualna gra
+     */
     private void initComponents(Game game) {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,6 +60,11 @@ public class MainWindow extends JFrame {
         });
     }
 
+    /**
+     * Metoda tworzaca okna {@link NextLevelMenu} lub {@link EndGameMenu} w zaleznosci od postepu gry
+     * @param levelNr numer obecnego poziomu
+     * @throws IOException
+     */
     public void makeLevel(int levelNr) throws IOException {
         this.dispose();
         totalScore += game.score;

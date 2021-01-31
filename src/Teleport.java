@@ -5,7 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Teleport extends JPanel {
+/**
+ * Klasa teleportu
+ */
+public class Teleport extends JComponent {
     private Level lev;
     Reader reader = new Reader();
     public double xpos;
@@ -19,6 +22,12 @@ public class Teleport extends JPanel {
     private BufferedImage image;
     private BufferedImage image1;
 
+    /**
+     * Konstruktor
+     * @param levelNumber numer aktualnego poziomu
+     * @param ind Numer teleportu w plikach konfiguracyjnych
+     * @throws IOException
+     */
     public Teleport(int levelNumber, int ind) throws IOException {
         width = prefWidth;
         height = prefHeight;
@@ -27,15 +36,18 @@ public class Teleport extends JPanel {
         xpos = lev.teleportsPosition.elementAt(ind).a;
         ypos = lev.teleportsPosition.elementAt(ind).b;
 
-        reader.getPrefSize();
-        prefWidth = reader.prefWidth/lev.numberOfWallsX;
-        prefHeight = reader.prefHeight/(lev.numberOfWallsY+2);
+        prefWidth = Reader.prefWidth/lev.numberOfWallsX;
+        prefHeight = Reader.prefHeight/(lev.numberOfWallsY+2);
         File imageFile = new File("resources/teleport.png");
         image = ImageIO.read(imageFile);
         File imageFile1 = new File("resources/teleport2.png");
         image1 = ImageIO.read(imageFile1);
     }
 
+    /**
+     * Metoda rysujaca obiekt teleportu w grze
+     * @param g
+     */
     public void paintComponent(Graphics g) {
         setDoubleBuffered(true);
         if(index == 0)

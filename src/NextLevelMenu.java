@@ -4,6 +4,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+/**
+ * Klasa obslugujaca okna pomiedzy poziomami
+ */
 public class NextLevelMenu extends JFrame {
     private JButton nextLevel;
     private JButton exit;
@@ -24,6 +27,12 @@ public class NextLevelMenu extends JFrame {
     Dimension prefSize = new Dimension(1, 20);
     Dimension maxSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
 
+    /**
+     * Konstruktor
+     * @param number numer levelu
+     * @param nick  nazwa gracza
+     * @param score wynik z ukonczonego poziomu
+     */
     NextLevelMenu(int number, String nick, int score){
         super("SOKOBAN");
         getContentPane().setBackground(Color.darkGray);
@@ -88,6 +97,9 @@ public class NextLevelMenu extends JFrame {
         });
     }
 
+    /**
+     * Metoda ustawiajaca i skalujaca elementy okna
+     */
     private void initComponents() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +127,11 @@ public class NextLevelMenu extends JFrame {
         });
     }
 
+    /**
+     * Metoda tworzaca nowy poziom
+     * @param nickname nazwa gracza
+     * @throws IOException
+     */
     public void makeLevel(String nickname) throws IOException {
         dispose();
         if(level <= Reader.getNumberOfLevels()) {
@@ -122,12 +139,18 @@ public class NextLevelMenu extends JFrame {
         }
     }
 
+    /**
+     * Metoda, ktora zapisuje wynik do pliku oraz powoduje powrot do menu glownego
+     * @param score wynik z ukonczonego poziomu
+     * @throws IOException
+     */
+
     public void saveAndMainMenu(int score) throws IOException {
         dispose();
         HighscoresParser parser = new HighscoresParser();
         parser.read();
         parser.addHighscore(new HighScore(nickname, score));
-        parser.zapisPliku();
+        parser.saveHighscores();
         new MenuWindow().setVisible(true);
     }
 }

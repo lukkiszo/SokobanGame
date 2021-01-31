@@ -3,7 +3,16 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.io.FileInputStream;
 
+/**
+ * Klasa pobierajaca dane z plikow konfiguracyjnych
+ */
 public class GetValuesFromReader {
+    /**
+     * Konstruktor
+     * @param nr numer aktualnego poziomu
+     * @return zbior danych
+     * @throws IOException
+     */
     public static Nonet<Integer[], Integer[], Integer[], Integer, Integer, Integer[], Integer[], Integer, Integer> getPropValues(String nr) throws IOException {
         Properties val = new Properties();
         String fileName = "resources\\" + nr;

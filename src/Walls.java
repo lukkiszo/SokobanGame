@@ -2,12 +2,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.File;
 import java.io.IOException;
 
-public class Walls extends JPanel{
+/**
+ * Klasa scian
+ */
+public class Walls extends JComponent{
     public Level lev;
     Reader reader = new Reader();
     public double xpos;
@@ -22,6 +23,12 @@ public class Walls extends JPanel{
     public int prefHeight = 50;
     private BufferedImage image;
 
+    /**
+     * Konstruktor
+     * @param levelNumber numer aktualnego poziomu
+     * @param index Numer sciany w plikach konfiguracyjnych
+     * @throws IOException
+     */
     public Walls(int levelNumber, int index) throws IOException {
 
 
@@ -40,15 +47,13 @@ public class Walls extends JPanel{
         image = ImageIO.read(imageFile);
     }
 
+    /**
+     * Metoda rysujaca obiekt sciany w grze
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
         g.drawImage(image, (int) (width * (xpos)), (int) (height * (ypos+1)), (int) width, (int) height, null );
-//        g.setColor(Color.WHITE);
-//        g.fillRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
-//        g.setColor(Color.BLACK);
-//        g.drawRect((int) (width * xpos), (int) (height * ypos), (int) width, (int) height);
-
     }
 
 }
