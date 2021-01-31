@@ -1,4 +1,4 @@
-levelNumber = 2
+levelNumber = 3
 numberOfObstacles = 11
 playerPosition = 13,1
 wallsX = 16

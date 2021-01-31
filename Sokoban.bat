@@ -1,0 +1,1 @@
+java -version 58 -jar sokoban.jar

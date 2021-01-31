@@ -1,0 +1,489 @@
+@startuml
+
+title __SRC's Class Diagram__\n
+
+  namespace CorrectPlaces {
+      class CorrectPlaces {
+          + height : double
+          + number : int
+          + prefHeight : int
+          + prefWidth : int
+          + width : double
+          + xpos : double
+          + ypos : double
+          + CorrectPlaces()
+          + paintComponent()
+      }
+    }
+
+
+    namespace EndGameMenu {
+      class EndGameMenu {
+          + currentHeight : int
+          + currentWidth : int
+          + prefHeight : int
+          + prefWidth : int
+          ~ maxSize : Dimension
+          ~ minSize : Dimension
+          ~ nickname : String
+          ~ prefSize : Dimension
+          - exit : JButton
+          - highscores : JButton
+          - pan : JPanel
+          - scoreLabel : JLabel
+          - title : JLabel
+          - totalScoreLabel : JLabel
+          + saveAndMainMenu()
+          ~ EndGameMenu()
+          - initComponents()
+          - saveAndHighscores()
+      }
+    }
+
+
+    namespace Game {
+      class Game {
+          + levelNumber : int
+          + nextLevelMenuShown : boolean
+          + score : double
+          ~ currentTime : long
+          ~ lastTime : long
+          ~ nickname : String
+          ~ thread : Thread
+          - allTime : long
+          - correctPlace : CorrectPlaces[]
+          - numberOfBackMoves : int
+          - numberOfDeletes : int
+          - numberOfLevels : int
+          - numberOfMoves : int
+          - obstacle : ArrayList<Obstacle>
+          - running : boolean
+          - startTime : long
+          - stopTime : long
+          - teleports : Teleport[]
+          - walls : Walls[]
+          + Game()
+          + collisionWithOtherObstacle()
+          + getPlayer()
+          + isOnCorrectPlace()
+          + isOnTeleport()
+          + isVictory()
+          + nextLevel()
+          + paintComponent()
+          + playerMove()
+          + resizeAll()
+          + run()
+          + start()
+          + stop()
+          + togglePause()
+          + update()
+          - collisionObstacleWall()
+          - collisionWithObstacles()
+          - updateScore()
+      }
+    }
+
+
+    namespace GameState {
+      enum GameState {
+        pause
+        running
+      }
+    }
+
+
+    namespace GetValuesFromReader {
+      class GetValuesFromReader {
+          {static} + getPropValues()
+      }
+    }
+
+
+    namespace HighScore {
+      class HighScore {
+          ~ nickname : String
+          ~ score : int
+          ~ HighScore()
+      }
+    }
+
+
+    namespace HighscoreWindow {
+      class HighscoreWindow {
+          + currentHeight : int
+          + currentWidth : int
+          + prefHeight : int
+          + prefWidth : int
+          ~ maxSize : Dimension
+          ~ minSize : Dimension
+          ~ prefSize : Dimension
+          - back : JButton
+          - label2 : JLabel
+          - pan : JPanel
+          ~ HighscoreWindow()
+          ~ backAction()
+          - initComponents()
+      }
+    }
+
+
+    namespace HighscoresParser {
+      class HighscoresParser {
+          {static} ~ comparator : HighScoreComparator
+          ~ highscores : Vector<HighScore>
+          ~ val : Properties
+          - file : InputStream
+          + saveHighscores()
+          ~ HighscoresParser()
+          ~ addHighscore()
+          ~ read()
+          ~ sort()
+      }
+    }
+
+
+    namespace HighScoreComparator {
+      class HighscoresParser.HighScoreComparator {
+          + compare()
+      }
+    }
+
+
+    namespace Keys {
+      class Keys {
+          + Keys()
+          + keyPressed()
+          + keyReleased()
+      }
+    }
+
+
+    namespace Level {
+      class Level {
+          ~ correctPlacesPosition : Vector<Pair<Integer, Integer>>
+          ~ levelNumber : int
+          ~ numberOfObstacles : int
+          ~ numberOfWallsX : int
+          ~ numberOfWallsY : int
+          ~ obstaclesPosition : Vector<Pair<Integer, Integer>>
+          ~ playerPosition : Vector<Pair<Integer, Integer>>
+          ~ teleportsPosition : Vector<Pair<Integer, Integer>>
+          ~ wallsPosition : Vector<Pair<Integer, Integer>>
+          ~ Level()
+      }
+    }
+
+
+    namespace MainWindow {
+      class MainWindow {
+          + currentHeight : int
+          + currentWidth : int
+          + prefHeight : int
+          + prefWidth : int
+          {static} + totalScore : int
+          + makeLevel()
+          ~ MainWindow()
+          - initComponents()
+      }
+    }
+
+
+    namespace MenuWindow {
+      class MenuWindow {
+          + currentHeight : int
+          + currentWidth : int
+          + nickname : String
+          + prefHeight : int
+          + prefWidth : int
+          ~ levelNumber : int
+          ~ maxSize : Dimension
+          ~ minSize : Dimension
+          ~ prefSize : Dimension
+          - exitButton : JButton
+          - pan : JPanel
+          - scoresButton : JButton
+          - startButton : JButton
+          - title : JLabel
+          {static} + main()
+          ~ MenuWindow()
+          ~ nickPicker()
+          ~ showHighscores()
+          - initComponents()
+      }
+    }
+
+
+    namespace NextLevelMenu {
+      class NextLevelMenu {
+          + currentHeight : int
+          + currentWidth : int
+          + prefHeight : int
+          + prefWidth : int
+          ~ maxSize : Dimension
+          ~ minSize : Dimension
+          ~ nickname : String
+          ~ prefSize : Dimension
+          - exit : JButton
+          - level : int
+          - nextLevel : JButton
+          - pan : JPanel
+          - scoreLabel : JLabel
+          - title : JLabel
+          + makeLevel()
+          + saveAndMainMenu()
+          ~ NextLevelMenu()
+          - initComponents()
+      }
+    }
+
+
+    namespace NickPicker {
+      class NickPicker {
+          + nickname : String
+          + prefHeight : int
+          + prefWidth : int
+          ~ levelNumber : int
+          ~ maxSize : Dimension
+          ~ minSize : Dimension
+          ~ prefSize : Dimension
+          - back : JButton
+          - label : JLabel
+          - label2 : JLabel
+          - nick : JTextField
+          - pan : JPanel
+          - scButton : JButton
+          + backAction()
+          + makeLevel()
+          ~ NickPicker()
+      }
+    }
+
+
+    namespace Nonet {
+      class Nonet {
+          + Nonet()
+      }
+    }
+
+
+    namespace Obstacle {
+      class Obstacle {
+          + downCollision : boolean
+          + downWall : boolean
+          + height : double
+          + isOnCorrectPlace : boolean
+          + leftCollision : boolean
+          + leftWall : boolean
+          + prefHeight : int
+          + prefWidth : int
+          + rightCollision : boolean
+          + rightWall : boolean
+          + upCollision : boolean
+          + upWall : boolean
+          + width : double
+          + xpos : double
+          + ypos : double
+          - image : BufferedImage
+          - image1 : BufferedImage
+          + Obstacle()
+          + paintComponent()
+      }
+    }
+
+
+    namespace Pair {
+      class Pair {
+          + Pair()
+      }
+    }
+
+
+    namespace PauseMenu {
+      class PauseMenu {
+          + currentHeight : int
+          + currentWidth : int
+          + prefHeight : int
+          + prefWidth : int
+          ~ maxSize : Dimension
+          ~ minSize : Dimension
+          ~ prefSize : Dimension
+          - continueButton : JButton
+          - levelNumber : int
+          - mainMenuButton : JButton
+          - nickname : String
+          - pause : JButton[]
+          - pauseLabel : JLabel
+          - restartButton : JButton
+          + paintComponent()
+          ~ PauseMenu()
+          - goToMainMenu()
+          - initComponents()
+          - levelRestart()
+      }
+    }
+
+
+    namespace Player {
+      class Player {
+          + downCollision : boolean
+          + downWall : boolean
+          + goDown : boolean
+          + goLeft : boolean
+          + goRight : boolean
+          + goUp : boolean
+          + height : double
+          + image : BufferedImage
+          + isOnTeleport : boolean
+          + leftCollision : boolean
+          + leftWall : boolean
+          + position : double[]
+          + prefHeight : int
+          + prefWidth : int
+          + rightCollision : boolean
+          + rightWall : boolean
+          + upCollision : boolean
+          + upWall : boolean
+          + wantToDelete : boolean
+          + width : double
+          + Player()
+          + collisionWithWalls()
+          + paintComponent()
+      }
+    }
+
+
+    namespace Quintet {
+      class Quintet {
+          + Quintet()
+      }
+    }
+
+
+    namespace Reader {
+      class Reader {
+          {static} ~ input : InputStream
+          {static} ~ prefHeight : int
+          {static} ~ prefWidth : int
+          {static} ~ props : Properties
+          {static} ~ readFileName : String
+          {static} + getNumberOfLevels()
+          {static} + getPrefSize()
+          {static} + makeLevel()
+      }
+    }
+
+
+    namespace Sextet {
+      class Sextet {
+          + Sextet()
+      }
+    }
+
+
+    namespace Teleport {
+      class Teleport {
+          + height : double
+          + index : int
+          + isBlocked : boolean
+          + prefHeight : int
+          + prefWidth : int
+          + width : double
+          + xpos : double
+          + ypos : double
+          - image : BufferedImage
+          - image1 : BufferedImage
+          + Teleport()
+          + paintComponent()
+      }
+    }
+
+
+    namespace Walls {
+      class Walls {
+          + height : double
+          + numberOfWallsX : int
+          + numberOfWallsY : int
+          + prefHeight : int
+          + prefWidth : int
+          + width : double
+          + xpos : double
+          + ypos : double
+          - image : BufferedImage
+          + Walls()
+          + paintComponent()
+      }
+    }
+  
+
+  CorrectPlaces -up-|> javax.swing.JPanel
+  CorrectPlaces o-- Level : lev
+  CorrectPlaces o-- Reader : reader
+  EndGameMenu -up-|> javax.swing.JFrame
+  EndGameMenu o-- HighscoresParser : parser
+  Game .up.|> java.lang.Runnable
+  Game -up-|> javax.swing.JComponent
+  Game o-- Game.GameState : gameState
+  Game o-- Level : lev
+  Game o-- MainWindow : mainWindow
+  Game o-- PauseMenu : pauseMenu
+  Game o-- Player : player
+  Game +-down- Game.GameState
+  HighscoreWindow -up-|> javax.swing.JFrame
+  HighscoreWindow o-- HighscoresParser : parser
+  HighscoresParser +-down- HighscoresParser.HighScoreComparator
+  HighscoresParser.HighScoreComparator .up.|> java.util.Comparator
+  Keys -up-|> java.awt.event.KeyAdapter
+  Keys o-- Game : game
+  Keys o-- Player : player
+  MainWindow -up-|> javax.swing.JFrame
+  MainWindow o-- Keys : keys
+  MainWindow o-- Game : game
+  MenuWindow -up-|> javax.swing.JFrame
+  NextLevelMenu -up-|> javax.swing.JFrame
+  NickPicker -up-|> javax.swing.JFrame
+  Nonet o-- A : a
+  Nonet o-- B : b
+  Nonet o-- C : c
+  Nonet o-- D : d
+  Nonet o-- E : e
+  Nonet o-- F : f
+  Nonet o-- G : g
+  Nonet o-- H : h
+  Nonet o-- I : i
+  Obstacle -up-|> javax.swing.JComponent
+  Obstacle o-- Reader : reader
+  Obstacle o-- Level : lev
+  Pair o-- A : a
+  Pair o-- B : b
+  PauseMenu -up-|> javax.swing.JComponent
+  PauseMenu o-- Game : game
+  Player -up-|> javax.swing.JComponent
+  Player o-- Level : lev
+  Player o-- Reader : reader
+  Quintet o-- A : a
+  Quintet o-- B : b
+  Quintet o-- C : c
+  Quintet o-- D : d
+  Quintet o-- E : e
+  Sextet o-- A : a
+  Sextet o-- B : b
+  Sextet o-- C : c
+  Sextet o-- D : d
+  Sextet o-- E : e
+  Sextet o-- F : f
+  Teleport -up-|> javax.swing.JComponent
+  Teleport o-- Reader : reader
+  Teleport o-- Level : lev
+  Walls -up-|> javax.swing.JComponent
+  Walls o-- Level : lev
+  Walls o-- Reader : reader
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
