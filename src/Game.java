@@ -157,6 +157,7 @@ public class Game extends JComponent implements Runnable {
                 if(player.wantToDeleteOnRight && numberOfDeletes < 2) {
                     obstacle.remove(i);
                     numberOfDeletes += 1;
+                    break;
                 }
                 player.rightCollision = true;
                 if (player.goRight && !obstacle.get(i).rightCollision && !obstacle.get(i).rightWall) {
@@ -170,6 +171,7 @@ public class Game extends JComponent implements Runnable {
                 if(player.wantToDeleteOnDown && numberOfDeletes < 2) {
                     obstacle.remove(i);
                     numberOfDeletes += 1;
+                    break;
                 }
                 player.downCollision = true;
                 if (player.goDown && !obstacle.get(i).downCollision && !obstacle.get(i).downWall) {
@@ -183,6 +185,7 @@ public class Game extends JComponent implements Runnable {
                 if(player.wantToDeleteOnUp && numberOfDeletes < 2) {
                     obstacle.remove(i);
                     numberOfDeletes += 1;
+                    break;
                 }
                 player.upCollision = true;
                 if (player.goUp && !obstacle.get(i).upCollision && !obstacle.get(i).upWall) {
@@ -196,6 +199,7 @@ public class Game extends JComponent implements Runnable {
                 if(player.wantToDeleteOnLeft && numberOfDeletes < 2) {
                     obstacle.remove(i);
                     numberOfDeletes += 1;
+                    break;
                 }
                 player.leftCollision = true;
                 if (player.goLeft && !obstacle.get(i).leftCollision && !obstacle.get(i).leftWall) {
