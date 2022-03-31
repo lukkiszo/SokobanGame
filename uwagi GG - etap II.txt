@@ -1,8 +1,0 @@
-Etap zaliczam, ale tak warunkowo... w moim odczuciu zadanie zostało zrealizowane tylko częściowo.
-
-W aktualnej postaci program jest w stanie odczytać JEDEN poziom - nazwa pliku jest stała; w pliku properties nie da się po raz kolejny zamieścić klucza 'levelNumber' - więc w takiej postaci w tym pliku nie da się zdefiniować kolejnego poziomu... (chyba, że coś mi umknęło).
-
-Kolejna sprawa - jak są określone wymiary planszy? Bo znalazłem pozycję gracza, ścian, przeszkód... ale w jakim zakresie te współrzędne mogą być? Na jakiej podstawie gra określi, jak dużą planszę (ile wierszy/kolumn) trzeba narysować? Czy to jest jakoś 'wyliczane' z obecnych danych, czy po prostu 'umknęło' uwadze i tego brakuje?
-
-A co z innymi parametrami konfiguracyjnymi? Tylko definicja planszy będzie? Żadnych 'parametrów ogólnych/globalnych', niepowiązanych z konkretnym poziomem? (jestem w stanie wyobrazić sobie, że tak jest - ale czy tak jest w rzeczywistości, czy to raczej kolejne 'umknięcie'?)
-
